@@ -1,12 +1,21 @@
 import {
+  BrowserRouter,
   Route,
+  Routes,
   createBrowserRouter,
-  createRoutesFromElements,
 } from "react-router-dom";
 import App from "./App";
+import NotFound from "./pages/NotFound";
 
-const routes = createBrowserRouter(
-  createRoutesFromElements(<Route path="/" element={<App />} />)
-);
+const routes = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
+]);
 
 export default routes;
