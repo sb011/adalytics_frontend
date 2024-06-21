@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { SignUpApiCall } from "../apis/ApiCalls";
-import SignUpValidation from "../validations/SignUpValidation";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/Auth.module.css";
+import LoginValidation from "../validations/LoginValidation";
+import { LoginApiCall } from "../apis/ApiCalls";
 
-const SignUp = () => {
+const Login = () => {
   const user = {
     email: "",
     password: "",
-    confirmPassword: "",
   };
 
   const [userInfo, setUserInfo] = useState(user);
@@ -21,24 +20,26 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validation = SignUpValidation(userInfo);
+    const validation = LoginValidation(userInfo);
     if (validation !== null) {
       setError(validation);
       return;
     }
 
-    const response = await SignUpApiCall(userInfo);
+    const response = await LoginApiCall(userInfo);
     if (response.errorMessage) {
       setError(response.errorMessage);
       return;
     } else {
+      localStorage.setItem("token", response.token);
       return navigate("/");
     }
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.box}>
-        <h1 className={styles.header}>Sign Up</h1>
+        <h1 className={styles.header}>Login</h1>
         <form className={styles.form}>
           <input
             type="email"
@@ -56,22 +57,14 @@ const SignUp = () => {
             onChange={handleChange}
             className={styles.input}
           />
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={userInfo.confirmPassword}
-            onChange={handleChange}
-            className={styles.input}
-          />
           {error && <p className={styles.error}>{error}</p>}
-          <button className={styles.btn} onClick={handleSubmit}>
-            Sign Up
+          <button onClick={handleSubmit} className={styles.btn}>
+            Login
           </button>
           <p className={styles.redirectText}>
-            Already have an account?{" "}
-            <a className={styles.redirectTextLink} href="/login">
-              Sign In
+            Don't have an account?{" "}
+            <a className={styles.redirectTextLink} href="/signup">
+              Sign Up
             </a>
           </p>
         </form>
@@ -80,4 +73,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;
