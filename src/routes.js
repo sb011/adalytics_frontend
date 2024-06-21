@@ -3,6 +3,8 @@ import App from "./App";
 import NotFound from "./pages/NotFound";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const ProtectedRoutes = () => {
   const localStorageToken = localStorage.getItem("token");
@@ -16,17 +18,36 @@ const ALreadyLoggedIn = () => {
   return localStorageToken ? <Navigate to="/" replace /> : <Outlet />;
 };
 
+const ComponentWithHeaderAndFooter = ({ page }) => {
+  return (
+    <>
+      <Header />
+      {page}
+      <Footer />
+    </>
+  );
+};
+
+const ComponentWithFooter = ({ page }) => {
+  return (
+    <>
+      {page}
+      <Footer />
+    </>
+  );
+};
+
 const routes = createBrowserRouter([
   {
     element: <ALreadyLoggedIn />,
     children: [
       {
         path: "/signup",
-        element: <SignUp />,
+        element: <ComponentWithFooter page={<SignUp />} />,
       },
       {
         path: "/login",
-        element: <Login />,
+        element: <ComponentWithFooter page={<Login />} />,
       },
     ],
   },
@@ -35,13 +56,13 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <App />,
+        element: <ComponentWithHeaderAndFooter page={<App />} />,
       },
     ],
   },
   {
     path: "*",
-    element: <NotFound />,
+    element: <ComponentWithFooter page={<NotFound />} />,
   },
 ]);
 
