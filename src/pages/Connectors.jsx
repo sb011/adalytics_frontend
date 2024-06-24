@@ -1,11 +1,12 @@
 import Styles from "../styles/Connectors.module.css";
 import AddIcon from "../public/add.png";
 import { useState } from "react";
-import FacebookIcon from "../public/facebook.png";
 import CloseIcon from "../public/close.png";
+import FacebookClient from "../components/FacebookClient";
 
 const Connectors = () => {
   const [addConnectorOpen, setAddConnectorOpen] = useState(false);
+
   return (
     <div className={Styles.connector_container}>
       <h1 className={Styles.connector_header}>Connector</h1>
@@ -38,14 +39,7 @@ const Connectors = () => {
                 </div>
               </div>
               <div className={Styles.connector_grid}>
-                <div className={Styles.connector_box_item}>
-                  <img
-                    className={Styles.connector_box_icon}
-                    src={FacebookIcon}
-                    alt="facebook"
-                  />
-                  <h1 className={Styles.connector_box_header}>Facebook</h1>
-                </div>
+                <FacebookClient />
               </div>
             </div>
           </div>

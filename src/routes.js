@@ -6,6 +6,8 @@ import Login from "./pages/Login";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Connectors from "./pages/Connectors";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 
 const ProtectedRoutes = () => {
   const localStorageToken = localStorage.getItem("token");
@@ -62,6 +64,14 @@ const routes = createBrowserRouter([
       {
         path: "/connectors",
         element: <ComponentWithHeaderAndFooter page={<Connectors />} />,
+      },
+      {
+        path: "/privacy",
+        element: <ComponentWithHeaderAndFooter page={<Privacy />} />,
+      },
+      {
+        path: "/terms",
+        element: <ComponentWithHeaderAndFooter page={<Terms />} />,
       },
     ],
   },

@@ -90,6 +90,12 @@
   padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 5px;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.connector_box_item:hover {
+  background-color: #f9f9f9;
 }
 
 .connector_box_icon {
@@ -102,4 +108,9 @@
   font-size: 1.5rem;
   font-weight: 600;
   margin-top: 1rem;
+}
+
+.facebook_btn {
+  background-color: none;
+  border: none;
 }
