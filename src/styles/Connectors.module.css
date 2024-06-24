@@ -110,7 +110,9 @@
   margin-top: 1rem;
 }
 
-.facebook_btn {
-  background-color: none;
-  border: none;
+.connector_error {
+  color: red;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1rem;
 }

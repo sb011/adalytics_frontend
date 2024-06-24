@@ -1,8 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import FacebookIcon from "../public/facebook.png";
-import Styles from "../styles/Connectors.module.css";
+import { CreateConnectorApiCall } from "../apis/ApiCalls";
+import Client from "./Client";
 
-const FacebookClient = () => {
+const FacebookClient = ({ setError }) => {
+  const [response, setResponse] = useState();
+
   useEffect(() => {
     window.fbAsyncInit = function () {
       window.FB.init({
@@ -28,20 +31,23 @@ const FacebookClient = () => {
     })(document, "script", "facebook-jssdk");
   }, []);
 
-  const handleFacebookLogin = () => {
+  const handleFacebookLogin = async () => {
     window.FB.login(function (response) {
-      console.log(response);
+      setResponse(response);
     });
+    const callResponse = await CreateConnectorApiCall(response);
+    if (callResponse.errorMessage) {
+      setError(callResponse.errorMessage);
+      return;
+    }
   };
+
   return (
-    <div className={Styles.connector_box_item} onClick={handleFacebookLogin}>
-      <img
-        className={Styles.connector_box_icon}
-        src={FacebookIcon}
-        alt="facebook"
-      />
-      <h1 className={Styles.connector_box_header}>Facebook</h1>
-    </div>
+    <Client
+      handleClick={handleFacebookLogin}
+      icon={FacebookIcon}
+      name="Facebook"
+    />
   );
 };
 

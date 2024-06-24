@@ -6,6 +6,7 @@ import FacebookClient from "../components/FacebookClient";
 
 const Connectors = () => {
   const [addConnectorOpen, setAddConnectorOpen] = useState(false);
+  const [error, setError] = useState("");
 
   return (
     <div className={Styles.connector_container}>
@@ -38,8 +39,9 @@ const Connectors = () => {
                   />
                 </div>
               </div>
+              {error && <p className={Styles.connector_error}>{error}</p>}
               <div className={Styles.connector_grid}>
-                <FacebookClient />
+                <FacebookClient setError={setError} />
               </div>
             </div>
           </div>
