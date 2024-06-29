@@ -1,6 +1,7 @@
-import Logo from "../public/logo.png";
+import Logo from "../icons/logo.png";
 import Styles from "../styles/Header.module.css";
-import Menu from "../public/menu.png";
+import Menu from "../icons/menu.png";
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +26,7 @@ const Header = () => {
         </a>
       </div>
       <div className={Styles.header_right_container}>
-        <a className={Styles.header_menu} href="/connectors">
+        <a className={Styles.header_nav_link} href="/connectors">
           Connectors
         </a>
         <div className={Styles.header_menu} onClick={handleMenuClick}>

@@ -42,14 +42,6 @@
   object-fit: contain;
 }
 
-.connector_list {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
 .connector_box {
   position: fixed;
   display: flex;
@@ -115,4 +107,49 @@
   font-size: 1rem;
   font-weight: 600;
   margin-top: 1rem;
+}
+
+.connector_table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.connector_thead {
+  background-color: #f9f9f9;
+}
+
+.connector_thead_tr {
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+}
+
+.connector_thead_th {
+  padding: 1rem;
+  text-align: left;
+}
+
+.connector_tbody {
+  background-color: #fff;
+}
+
+.connector_tbody_tr {
+  border-bottom: 1px solid #ccc;
+}
+
+.connector_tbody_td {
+  padding: 1rem;
+  text-align: left;
+}
+
+.connector_platform_icon {
+  max-width: 30px;
+  max-height: 30px;
+  object-fit: contain;
+}
+
+.connector_delete_icon {
+  max-width: 20px;
+  max-height: 20px;
+  object-fit: contain;
+  cursor: pointer;
 }

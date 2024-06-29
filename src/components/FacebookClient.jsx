@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import FacebookIcon from "../public/facebook.png";
-import { CreateConnectorApiCall } from "../apis/ApiCalls";
+import FacebookIcon from "../icons/facebook.png";
 import Client from "./Client";
 
-const FacebookClient = ({ setError }) => {
-  const [response, setResponse] = useState();
+import { useEffect } from "react";
+import { postApiCall } from "../apis/ApiCall";
+import { CREATE_CONNECTOR_API } from "../apis/constants/ApiConstant";
 
+const FacebookClient = ({ setError }) => {
   useEffect(() => {
     window.fbAsyncInit = function () {
       window.FB.init({
-        appId: "324738430574709",
+        appId: process.env.REACT_APP_FACEBOOK_APP_ID,
         cookie: true,
         xfbml: true,
-        version: "v20.0",
+        version: process.env.REACT_APP_FACEBOOK_API_VERSION,
       });
 
       window.FB.AppEvents.logPageView();
@@ -33,13 +33,29 @@ const FacebookClient = ({ setError }) => {
 
   const handleFacebookLogin = async () => {
     window.FB.login(function (response) {
-      setResponse(response);
+      if (response.authResponse && response.status === "connected") {
+        const requestBody = {
+          token: response.authResponse.accessToken,
+          platform: "FACEBOOK",
+          platformUserId: response.authResponse.userID,
+        };
+        postApiCall(
+          CREATE_CONNECTOR_API,
+          requestBody,
+          localStorage.getItem("token")
+        )
+          .then((response) => {
+            if (response.errorMessage) {
+              setError(response.errorMessage);
+            }
+          })
+          .catch((error) => {
+            setError("Error creating connector: " + error.message);
+          });
+      } else {
+        setError("User cancelled login or did not fully authorize.");
+      }
     });
-    const callResponse = await CreateConnectorApiCall(response);
-    if (callResponse.errorMessage) {
-      setError(callResponse.errorMessage);
-      return;
-    }
   };
 
   return (

@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styles from "../styles/Auth.module.css";
 import LoginValidation from "../validations/LoginValidation";
-import { LoginApiCall } from "../apis/ApiCalls";
+
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { postApiCall } from "../apis/ApiCall";
+import { LOGIN_API } from "../apis/constants/ApiConstant";
 
 const Login = () => {
   const user = {
@@ -26,11 +28,12 @@ const Login = () => {
       return;
     }
 
-    const response = await LoginApiCall(userInfo);
+    const response = await postApiCall(LOGIN_API, userInfo);
     if (response.errorMessage) {
       setError(response.errorMessage);
       return;
     } else {
+      if (response.token === undefined) return setError("Invalid credentials");
       localStorage.setItem("token", response.token);
       return navigate("/");
     }
