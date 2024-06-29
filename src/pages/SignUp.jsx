@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { SignUpApiCall } from "../apis/ApiCalls";
 import SignUpValidation from "../validations/SignUpValidation";
-import { useNavigate } from "react-router-dom";
 import styles from "../styles/Auth.module.css";
+
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { postApiCall } from "../apis/ApiCall";
+import { SIGNUP_API } from "../apis/constants/ApiConstant";
 
 const SignUp = () => {
   const user = {
@@ -27,12 +29,12 @@ const SignUp = () => {
       return;
     }
 
-    const response = await SignUpApiCall(userInfo);
+    const response = await postApiCall(SIGNUP_API, userInfo);
     if (response.errorMessage) {
       setError(response.errorMessage);
       return;
     } else {
-      return navigate("/");
+      return navigate("/login");
     }
   };
   return (
