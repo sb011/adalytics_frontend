@@ -1,35 +1,41 @@
-import SignUpValidation from "../validations/SignUpValidation";
-import styles from "../styles/Auth.module.css";
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CREATE_ORGANIZATION_API } from "../apis/constants/ApiConstant";
+import styles from "../styles/Auth.module.css";
 import { postApiCall } from "../apis/ApiCall";
-import { SIGNUP_API } from "../apis/constants/ApiConstant";
+import CreateOrganizationValidation from "../validations/CreateOrganizationValidation";
 
-const SignUp = () => {
-  const user = {
+const CreateOrganization = () => {
+  const organization = {
+    organizationName: "",
     email: "",
     password: "",
     confirmPassword: "",
   };
 
-  const [userInfo, setUserInfo] = useState(user);
+  const [organizationInfo, setOrganizationInfo] = useState(organization);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+    setOrganizationInfo({
+      ...organizationInfo,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validation = SignUpValidation(userInfo);
+    const validation = CreateOrganizationValidation(organizationInfo);
     if (validation !== null) {
       setError(validation);
       return;
     }
 
-    const response = await postApiCall(SIGNUP_API, userInfo);
+    const response = await postApiCall(
+      CREATE_ORGANIZATION_API,
+      organizationInfo
+    );
     if (response.errorMessage) {
       setError(response.errorMessage);
       return;
@@ -37,16 +43,26 @@ const SignUp = () => {
       return navigate("/login");
     }
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.box}>
-        <h1 className={styles.header}>Sign Up</h1>
+        <h1 className={styles.header}>Create Organization</h1>
         <form className={styles.form}>
+          <input
+            type="text"
+            name="organizationName"
+            placeholder="Organization Name"
+            value={organizationInfo.organizationName}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          <h1 className={styles.header}>Add User Details</h1>
           <input
             type="email"
             name="email"
             placeholder="Email"
-            value={userInfo.email}
+            value={organizationInfo.email}
             onChange={handleChange}
             className={styles.input}
           />
@@ -54,7 +70,7 @@ const SignUp = () => {
             type="password"
             name="password"
             placeholder="Password"
-            value={userInfo.password}
+            value={organizationInfo.password}
             onChange={handleChange}
             className={styles.input}
           />
@@ -62,13 +78,13 @@ const SignUp = () => {
             type="password"
             name="confirmPassword"
             placeholder="Confirm Password"
-            value={userInfo.confirmPassword}
+            value={organizationInfo.confirmPassword}
             onChange={handleChange}
             className={styles.input}
           />
           {error && <p className={styles.error}>{error}</p>}
           <button className={styles.btn} onClick={handleSubmit}>
-            Sign Up
+            Create
           </button>
         </form>
       </div>
@@ -76,4 +92,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default CreateOrganization;

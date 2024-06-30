@@ -21,14 +21,6 @@
   width: 100%;
 }
 
-.connector_searchbar {
-  margin-bottom: 1rem;
-  width: 40%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
 .connector_add_btn {
   max-width: 30px;
   max-height: 30px;

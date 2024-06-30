@@ -8,6 +8,8 @@ import Footer from "./components/Footer";
 import Connectors from "./pages/Connectors";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import CreateOrganization from "./pages/CreateOrganization";
+import Users from "./pages/Users";
 
 const ProtectedRoutes = () => {
   const localStorageToken = localStorage.getItem("token");
@@ -45,8 +47,8 @@ const routes = createBrowserRouter([
     element: <ALreadyLoggedIn />,
     children: [
       {
-        path: "/signup",
-        element: <ComponentWithFooter page={<SignUp />} />,
+        path: "/organization/create",
+        element: <ComponentWithFooter page={<CreateOrganization />} />,
       },
       {
         path: "/login",
@@ -62,18 +64,26 @@ const routes = createBrowserRouter([
         element: <ComponentWithHeaderAndFooter page={<App />} />,
       },
       {
+        path: "/signup",
+        element: <ComponentWithFooter page={<SignUp />} />,
+      },
+      {
         path: "/connectors",
         element: <ComponentWithHeaderAndFooter page={<Connectors />} />,
       },
       {
-        path: "/privacy",
-        element: <ComponentWithHeaderAndFooter page={<Privacy />} />,
-      },
-      {
-        path: "/terms",
-        element: <ComponentWithHeaderAndFooter page={<Terms />} />,
+        path: "/users",
+        element: <ComponentWithHeaderAndFooter page={<Users />} />,
       },
     ],
+  },
+  {
+    path: "/privacy",
+    element: <ComponentWithFooter page={<Privacy />} />,
+  },
+  {
+    path: "/terms",
+    element: <ComponentWithFooter page={<Terms />} />,
   },
   {
     path: "*",

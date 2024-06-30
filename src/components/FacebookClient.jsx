@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { postApiCall } from "../apis/ApiCall";
 import { CREATE_CONNECTOR_API } from "../apis/constants/ApiConstant";
 
-const FacebookClient = ({ setError }) => {
+const FacebookClient = (props) => {
   useEffect(() => {
     window.fbAsyncInit = function () {
       window.FB.init({
@@ -46,14 +46,16 @@ const FacebookClient = ({ setError }) => {
         )
           .then((response) => {
             if (response.errorMessage) {
-              setError(response.errorMessage);
+              props.setError(response.errorMessage);
+            } else {
+              window.location.reload();
             }
           })
           .catch((error) => {
-            setError("Error creating connector: " + error.message);
+            props.setError("Error creating connector: " + error.message);
           });
       } else {
-        setError("User cancelled login or did not fully authorize.");
+        props.setError("User cancelled login or did not fully authorize.");
       }
     });
   };

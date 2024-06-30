@@ -29,6 +29,9 @@ const Header = () => {
         <a className={Styles.header_nav_link} href="/connectors">
           Connectors
         </a>
+        <a className={Styles.header_nav_link} href="/users">
+          Users
+        </a>
         <div className={Styles.header_menu} onClick={handleMenuClick}>
           <img src={Menu} className={Styles.header_menu_logo} alt="menu" />
         </div>

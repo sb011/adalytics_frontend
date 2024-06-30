@@ -64,12 +64,6 @@ const Login = () => {
           <button onClick={handleSubmit} className={styles.btn}>
             Login
           </button>
-          <p className={styles.redirectText}>
-            Don't have an account?{" "}
-            <a className={styles.redirectTextLink} href="/signup">
-              Sign Up
-            </a>
-          </p>
         </form>
       </div>
     </div>
