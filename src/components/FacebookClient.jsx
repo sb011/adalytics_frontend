@@ -13,6 +13,7 @@ const FacebookClient = (props) => {
         cookie: true,
         xfbml: true,
         version: process.env.REACT_APP_FACEBOOK_API_VERSION,
+        status: false,
       });
 
       window.FB.AppEvents.logPageView();

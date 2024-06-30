@@ -86,6 +86,15 @@ const CreateOrganization = () => {
           <button className={styles.btn} onClick={handleSubmit}>
             Create
           </button>
+          <p className={styles.redirectText}>
+            Already have an account?{" "}
+            <a
+              className={styles.redirectTextLink}
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </a>
+          </p>
         </form>
       </div>
     </div>
