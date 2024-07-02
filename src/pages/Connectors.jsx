@@ -56,15 +56,22 @@ const Connectors = () => {
       <div className={Styles.connector_topbar}>
         <h1 className={Styles.connector_header}>Connector</h1>
         <div
-          className={Styles.connector_add_btn}
+          className={Styles.connector_add_btn_container}
           onClick={() => setAddConnectorOpen(!addConnectorOpen)}
         >
-          <img className={Styles.connector_add_icon} src={AddIcon} alt="add" />
+          <div className={Styles.connector_add_btn}>
+            <img
+              className={Styles.connector_add_icon}
+              src={AddIcon}
+              alt="add"
+            />
+          </div>
+          <h1 className={Styles.connector_add_btn_txt}>Add</h1>
         </div>
         {addConnectorOpen && (
           <div className={Styles.connector_box}>
             <div className={Styles.connector_box_container}>
-              <div className={Styles.connector_topbar}>
+              <div className={Styles.connector_add_topbar}>
                 <h1 className={Styles.connector_box_header}>Add Connector</h1>
                 <div
                   className={Styles.connector_add_btn}
@@ -121,10 +128,10 @@ const Connectors = () => {
             ))}
           </tbody>
         )}
-        {response && response.length === 0 && (
-          <p className={Styles.connector_error}>No connectors found</p>
-        )}
       </table>
+      {response && response.length === 0 && (
+        <p className={Styles.connector_error}>No connectors found</p>
+      )}
     </div>
   );
 };

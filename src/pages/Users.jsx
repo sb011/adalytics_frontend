@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Styles from "../styles/Users.module.css";
-import AddIcon from "../icons/add.png";
 import CloseIcon from "../icons/close.png";
 import { useNavigate } from "react-router-dom";
 import SignUpValidation from "../validations/SignUpValidation";
@@ -52,7 +51,7 @@ const Users = () => {
           className={Styles.users_add_btn}
           onClick={() => setAddCreateUserOpen(!addCreateUserOpen)}
         >
-          <img className={Styles.users_add_icon} src={AddIcon} alt="add" />
+          {/* <img className={Styles.users_add_icon} src={AddIcon} alt="add" /> */}
         </div>
         {addCreateUserOpen && (
           <div className={Styles.users_box}>

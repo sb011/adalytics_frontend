@@ -16,4 +16,37 @@ code {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-size: 16px;
+  scroll-behavior: smooth;
+  letter-spacing: 1px;
+  font-family: var(--font-style);
+}
+
+:root {
+  --primary-color: #0866ff;
+  --white-color: #fff;
+  --black-color: #000;
+  --light-black-color: #bbb;
+  --border-radius: 12px;
+  --border: 1px solid #ddd;
+  --primary-color-border: 1px solid #0866ff;
+  --font-style: "Adalytics-sans", sans-serif;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--white-color);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--light-black-color);
+  border-radius: 10px;
+}
+
+@font-face {
+  font-family: "Adalytics-sans";
+  src: url("../public/DMSans_18pt-Regular.ttf") format("truetype");
 }

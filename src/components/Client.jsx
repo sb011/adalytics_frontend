@@ -8,7 +8,7 @@ const Client = (props) => {
         src={props.icon}
         alt={props.name}
       />
-      <h1 className={Styles.connector_box_header}>{props.name}</h1>
+      <h1 className={Styles.connector_box_item_header}>{props.name}</h1>
     </div>
   );
 };

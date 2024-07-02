@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CREATE_ORGANIZATION_API } from "../apis/constants/ApiConstant";
-import styles from "../styles/Auth.module.css";
 import { postApiCall } from "../apis/ApiCall";
+
+import Logo from "../icons/logo.png";
+import styles from "../styles/Auth.module.css";
 import CreateOrganizationValidation from "../validations/CreateOrganizationValidation";
 
 const CreateOrganization = () => {
@@ -46,6 +48,9 @@ const CreateOrganization = () => {
 
   return (
     <div className={styles.container}>
+      <a href="/" className={styles.logo_link}>
+        <img src={Logo} alt="logo" className={styles.logo} />
+      </a>
       <div className={styles.box}>
         <h1 className={styles.header}>Create Organization</h1>
         <form className={styles.form}>
@@ -57,7 +62,6 @@ const CreateOrganization = () => {
             onChange={handleChange}
             className={styles.input}
           />
-          <h1 className={styles.header}>Add User Details</h1>
           <input
             type="email"
             name="email"

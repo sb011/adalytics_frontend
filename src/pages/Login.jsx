@@ -1,5 +1,6 @@
 import styles from "../styles/Auth.module.css";
 import LoginValidation from "../validations/LoginValidation";
+import Logo from "../icons/logo.png";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -41,6 +42,9 @@ const Login = () => {
 
   return (
     <div className={styles.container}>
+      <a href="/" className={styles.logo_link}>
+        <img src={Logo} alt="logo" className={styles.logo} />
+      </a>
       <div className={styles.box}>
         <h1 className={styles.header}>Login</h1>
         <form className={styles.form}>
@@ -64,6 +68,9 @@ const Login = () => {
           <button onClick={handleSubmit} className={styles.btn}>
             Login
           </button>
+          <a href="/forgot-password" className={styles.redirectTextLink}>
+            Forgot password?
+          </a>
         </form>
       </div>
     </div>

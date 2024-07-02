@@ -1,0 +1,13 @@
+.error_box {
+  width: 100%;
+  padding: 1rem;
+  background-color: rgba(255, 0, 0, 0.5);
+  text-align: center;
+  border-radius: var(--border-radius);
+  margin-top: 1rem;
+}
+
+.error {
+  color: var(--white-color);
+  font-weight: 600;
+}
