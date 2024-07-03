@@ -1,6 +1,6 @@
 .users_container {
   display: flex;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   position: relative;
   flex-direction: column;
@@ -11,7 +11,6 @@
 .users_header {
   font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 1rem;
 }
 
 .users_topbar {
@@ -22,17 +21,32 @@
   margin-bottom: 1rem;
 }
 
+.users_add_btn_container {
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  color: var(--primary-color);
+  border: var(--border);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
 .users_add_btn {
   max-width: 30px;
   max-height: 30px;
-  border-radius: 5px;
   cursor: pointer;
-  border: 1px solid #ccc;
+  margin-left: 0.5rem;
 }
 
 .users_add_icon {
   width: 100%;
   object-fit: contain;
+}
+
+.users_add_btn_txt {
+  margin: 0 0.5rem;
 }
 
 .users_box {
@@ -49,32 +63,72 @@
 }
 
 .users_box_container {
-  width: 400px;
+  width: 50%;
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   padding: 1.5rem;
+}
+
+.users_box_topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: var(--border);
+  padding-bottom: 1rem;
+}
+
+.users_box_header {
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .form {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  gap: 0.5rem;
+  padding: 1rem;
 }
 
 .input {
-  width: 100%;
+  flex-grow: 1;
   padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+
+.item_values {
+  background-color: rgb(218, 216, 216);
+  display: inline-block;
+  padding: 0.5rem;
+  border-radius: var(--border-radius);
+  width: fit-content;
+}
+
+.remove {
+  background-color: var(--light-black-color);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.4rem;
+  cursor: pointer;
 }
 
 .btn {
+  width: 100%;
   padding: 0.5rem;
   border: none;
-  border-radius: 5px;
-  background-color: #f34456;
-  color: #fff;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: var(--white-color);
   cursor: pointer;
+  margin-top: 1rem;
 }
 
 .error {

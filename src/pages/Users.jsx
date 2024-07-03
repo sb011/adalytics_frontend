@@ -1,63 +1,52 @@
-import { useState } from "react";
 import Styles from "../styles/Users.module.css";
+import InviteIcon from "../icons/invite.png";
 import CloseIcon from "../icons/close.png";
+
 import { useNavigate } from "react-router-dom";
-import SignUpValidation from "../validations/SignUpValidation";
-import { postApiCall } from "../apis/ApiCall";
-import { SIGNUP_API } from "../apis/constants/ApiConstant";
+import { useState } from "react";
 
 const Users = () => {
-  const user = {
-    email: "",
-    password: "",
-    confirmPassword: "",
-  };
-
   const [addCreateUserOpen, setAddCreateUserOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState(user);
+  const [email, setEmail] = useState("");
+  const [emailList, setEmailList] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+  const addEmail = (event) => {
+    if (event.target.value !== "" && event.key === "Enter") {
+      setEmailList([...emailList, event.target.value]);
+      setEmail("");
+    }
+  };
+
+  const removeEmail = (indexToRemove) => {
+    const t = emailList.filter((_, index) => index !== indexToRemove);
+    setEmailList(t);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validation = SignUpValidation(userInfo);
-    if (validation !== null) {
-      setError(validation);
-      return;
-    }
-
-    const response = await postApiCall(
-      SIGNUP_API,
-      userInfo,
-      localStorage.getItem("token")
-    );
-    if (response.errorMessage) {
-      setError(response.errorMessage);
-      return;
-    } else {
-      return navigate("/login");
-    }
+    console.log(emailList);
   };
 
   return (
     <div className={Styles.users_container}>
       <div className={Styles.users_topbar}>
-        <h1>Users</h1>
+        <h1 className={Styles.users_header}>Users</h1>
         <div
-          className={Styles.users_add_btn}
+          className={Styles.users_add_btn_container}
           onClick={() => setAddCreateUserOpen(!addCreateUserOpen)}
         >
-          {/* <img className={Styles.users_add_icon} src={AddIcon} alt="add" /> */}
+          <div className={Styles.users_add_btn}>
+            <img className={Styles.users_add_icon} src={InviteIcon} alt="add" />
+          </div>
+          <h1 className={Styles.users_add_btn_txt}>Invite</h1>
         </div>
         {addCreateUserOpen && (
           <div className={Styles.users_box}>
             <div className={Styles.users_box_container}>
-              <div className={Styles.users_topbar}>
-                <h1 className={Styles.users_box_header}>Add User</h1>
+              <div className={Styles.users_box_topbar}>
+                <h1 className={Styles.users_box_header}>Invite User</h1>
                 <div
                   className={Styles.users_add_btn}
                   onClick={() => setAddCreateUserOpen(!addCreateUserOpen)}
@@ -69,36 +58,32 @@ const Users = () => {
                   />
                 </div>
               </div>
-              <form className={Styles.form}>
+              <div className={Styles.form}>
+                {emailList.map((email, index) => (
+                  <div className={Styles.item_values} key={index}>
+                    <span className={Styles.value}>{email}</span>
+                    <span
+                      className={Styles.remove}
+                      onClick={() => removeEmail(index)}
+                    >
+                      &times;
+                    </span>
+                  </div>
+                ))}
                 <input
                   type="email"
                   name="email"
-                  placeholder="Email"
-                  value={userInfo.email}
-                  onChange={handleChange}
+                  placeholder="Enter email, for multiple emails use enter key"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className={Styles.input}
+                  onKeyDown={addEmail}
                 />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={userInfo.password}
-                  onChange={handleChange}
-                  className={Styles.input}
-                />
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  placeholder="Confirm Password"
-                  value={userInfo.confirmPassword}
-                  onChange={handleChange}
-                  className={Styles.input}
-                />
-                {error && <p className={Styles.error}>{error}</p>}
-                <button className={Styles.btn} onClick={handleSubmit}>
-                  Add User
-                </button>
-              </form>
+              </div>
+              {error && <p className={Styles.error}>{error}</p>}
+              <button className={Styles.btn} onClick={handleSubmit}>
+                Invite
+              </button>
             </div>
           </div>
         )}

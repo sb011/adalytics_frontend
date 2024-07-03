@@ -80,7 +80,7 @@ const Connectors = () => {
                   <img
                     className={Styles.connector_add_icon}
                     src={CloseIcon}
-                    alt="add"
+                    alt="close"
                   />
                 </div>
               </div>
