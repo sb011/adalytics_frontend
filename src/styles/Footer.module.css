@@ -2,15 +2,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f8f9fa;
-  height: 80px;
   width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  height: 5rem;
   z-index: 10;
-  border-top: 1px solid #e9ecef;
+  border-top: var(--border);
 }
 
 .footer_list {

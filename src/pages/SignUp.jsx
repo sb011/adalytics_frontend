@@ -70,12 +70,6 @@ const SignUp = () => {
           <button className={styles.btn} onClick={handleSubmit}>
             Sign Up
           </button>
-          <p className={styles.redirectText}>
-            Already have an account?{" "}
-            <a className={styles.redirectTextLink} href="/login">
-              Sign In
-            </a>
-          </p>
         </form>
       </div>
     </div>

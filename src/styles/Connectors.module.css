@@ -1,6 +1,6 @@
 .connector_container {
   display: flex;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   position: relative;
   flex-direction: column;
@@ -11,7 +11,6 @@
 .connector_header {
   font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 1rem;
 }
 
 .connector_topbar {
@@ -19,27 +18,33 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  margin-bottom: 1rem;
 }
 
-.connector_searchbar {
-  margin-bottom: 1rem;
-  width: 40%;
+.connector_add_btn_container {
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  color: var(--primary-color);
+  border: var(--border);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
 }
 
 .connector_add_btn {
   max-width: 30px;
   max-height: 30px;
-  border-radius: 5px;
-  cursor: pointer;
-  border: 1px solid #ccc;
 }
 
 .connector_add_icon {
   width: 100%;
   object-fit: contain;
+}
+
+.connector_add_btn_txt {
+  margin: 0 0.5rem;
 }
 
 .connector_box {
@@ -58,21 +63,23 @@
 .connector_box_container {
   width: 70%;
   height: 70%;
-  background-color: #fff;
-  border-radius: 5px;
+  background-color: var(--white-color);
+  border-radius: var(--border-radius);
   padding: 1.5rem;
 }
 
-.connector_topbar {
+.connector_add_topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+  border-bottom: var(--border);
+  padding-bottom: 1rem;
 }
 
 .connector_grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(15%, 1fr));
   gap: 1rem;
 }
 
@@ -80,8 +87,8 @@
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: var(--border);
+  border-radius: var(--border-radius);
   cursor: pointer;
   background-color: #fff;
 }
@@ -98,6 +105,11 @@
 
 .connector_box_header {
   font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.connector_box_item_header {
+  font-size: 1rem;
   font-weight: 600;
   margin-top: 1rem;
 }
@@ -138,7 +150,6 @@
 
 .connector_tbody_td {
   padding: 1rem;
-  text-align: left;
 }
 
 .connector_platform_icon {
