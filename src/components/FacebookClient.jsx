@@ -10,10 +10,8 @@ const FacebookClient = (props) => {
     window.fbAsyncInit = function () {
       window.FB.init({
         appId: process.env.REACT_APP_FACEBOOK_APP_ID,
-        cookie: true,
         xfbml: true,
         version: process.env.REACT_APP_FACEBOOK_API_VERSION,
-        status: false,
       });
 
       window.FB.AppEvents.logPageView();
@@ -33,32 +31,51 @@ const FacebookClient = (props) => {
   }, []);
 
   const handleFacebookLogin = async () => {
-    window.FB.login(function (response) {
-      if (response.authResponse && response.status === "connected") {
-        const requestBody = {
-          token: response.authResponse.accessToken,
-          platform: "FACEBOOK",
-          platformUserId: response.authResponse.userID,
-        };
-        postApiCall(
-          CREATE_CONNECTOR_API,
-          requestBody,
-          localStorage.getItem("token")
-        )
-          .then((response) => {
-            if (response.errorMessage) {
-              props.setError(response.errorMessage);
-            } else {
-              window.location.reload();
+    window.FB.login(
+      function (response) {
+        if (response.authResponse && response.status === "connected") {
+          window.FB.api(
+            "/me?fields=email",
+            function (profileResponse) {
+              const requestBody = {
+                token: response.authResponse.accessToken,
+                platform: "FACEBOOK",
+                platformUserId: response.authResponse.userID,
+                email: profileResponse.email,
+              };
+              postApiCall(
+                CREATE_CONNECTOR_API,
+                requestBody,
+                localStorage.getItem("token")
+              )
+                .then((response) => {
+                  if (response.errorMessage) {
+                    props.setError(response.errorMessage);
+                  } else {
+                    window.location.reload();
+                  }
+                })
+                .catch((error) => {
+                  props.setError("Error creating connector: " + error.message);
+                })
+                .finally(() => {
+                  window.FB.logout();
+                });
+            },
+            {
+              scope: "email",
+              return_scopes: true,
             }
-          })
-          .catch((error) => {
-            props.setError("Error creating connector: " + error.message);
-          });
-      } else {
-        props.setError("User cancelled login or did not fully authorize.");
+          );
+        } else {
+          props.setError("User cancelled login or did not fully authorize.");
+        }
+      },
+      {
+        scope: "email",
+        return_scopes: true,
       }
-    });
+    );
   };
 
   return (
