@@ -1,16 +1,42 @@
 import Styles from "../styles/Users.module.css";
 import InviteIcon from "../icons/invite.png";
 import CloseIcon from "../icons/close.png";
+import DeleteIcon from "../icons/delete.png";
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getApiCall } from "../apis/ApiCall";
+import { GET_ALL_USERS_BY_ORGANIZATIONS_API } from "../apis/constants/ApiConstant";
+import ConfirmationBox from "../components/ConfirmationBox";
 
 const Users = () => {
   const [addCreateUserOpen, setAddCreateUserOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [emailList, setEmailList] = useState([]);
   const [error, setError] = useState("");
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const apiResponse = await getApiCall(
+        GET_ALL_USERS_BY_ORGANIZATIONS_API,
+        localStorage.getItem("token")
+      );
+      if (apiResponse.errorMessage) {
+        setError(apiResponse.errorMessage);
+        return;
+      } else {
+        setUsers(apiResponse);
+        console.log(apiResponse);
+      }
+    };
+
+    getUsers().catch((error) => {
+      setError("Error getting users: " + error.message);
+    });
+  }, []);
 
   const addEmail = (event) => {
     if (event.target.value !== "" && event.key === "Enter") {
@@ -88,6 +114,42 @@ const Users = () => {
           </div>
         )}
       </div>
+      <table className={Styles.users_table}>
+        <thead className={Styles.users_thead}>
+          <tr className={Styles.users_thead_tr}>
+            <th className={Styles.users_thead_th}>Email</th>
+            <th className={Styles.users_thead_th}>Username</th>
+            <th className={Styles.users_thead_th}>Delete</th>
+          </tr>
+        </thead>
+        {users && users.length > 0 && (
+          <tbody className={Styles.connector_tbody}>
+            {users.map((user) => (
+              <tr className={Styles.users_tbody_tr} key={user.id}>
+                <td className={Styles.users_tbody_td}>{user.email}</td>
+                <td className={Styles.users_tbody_td}>{user.username}</td>
+                <td className={Styles.users_tbody_td}>
+                  <img
+                    className={Styles.users_delete_icon}
+                    src={DeleteIcon}
+                    alt="delete"
+                    onClick={() => setIsDeleteOpen(!isDeleteOpen)}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        )}
+      </table>
+      {isDeleteOpen && (
+        <ConfirmationBox
+          message="Are you sure you want to delete this user?"
+          cancel={() => setIsDeleteOpen(!isDeleteOpen)}
+        />
+      )}
+      {users && users.length === 0 && (
+        <p className={Styles.connector_error}>No connectors found</p>
+      )}
     </div>
   );
 };

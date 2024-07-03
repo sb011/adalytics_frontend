@@ -69,6 +69,7 @@ const FacebookClient = (props) => {
           );
         } else {
           props.setError("User cancelled login or did not fully authorize.");
+          window.FB.logout();
         }
       },
       {

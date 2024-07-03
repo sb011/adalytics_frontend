@@ -27,7 +27,9 @@ code {
   --white-color: #fff;
   --black-color: #000;
   --light-black-color: #bbb;
+  --red-color: #ff0000;
   --border-radius: 12px;
+  --small-border-radius: 8px;
   --border: 1px solid #ddd;
   --primary-color-border: 1px solid #0866ff;
   --font-style: "Adalytics-sans", sans-serif;

@@ -95,8 +95,9 @@ const Connectors = () => {
       <table className={Styles.connector_table}>
         <thead className={Styles.connector_thead}>
           <tr className={Styles.connector_thead_tr}>
-            <th className={Styles.connector_thead_th}>Id</th>
+            <th className={Styles.connector_thead_th}>Email</th>
             <th className={Styles.connector_thead_th}>Platform</th>
+            <th className={Styles.connector_thead_th}>Re-Authentication</th>
             <th className={Styles.connector_thead_th}>Delete</th>
           </tr>
         </thead>
@@ -104,7 +105,7 @@ const Connectors = () => {
           <tbody className={Styles.connector_tbody}>
             {response.map((connector) => (
               <tr className={Styles.connector_tbody_tr} key={connector.id}>
-                <td className={Styles.connector_tbody_td}>{connector.id}</td>
+                <td className={Styles.connector_tbody_td}>{connector.email}</td>
                 <td className={Styles.connector_tbody_td}>
                   {connector.platform === "FACEBOOK" ? (
                     <img
@@ -114,6 +115,16 @@ const Connectors = () => {
                     />
                   ) : (
                     "Unknown"
+                  )}
+                </td>
+                <td className={Styles.connector_tbody_td}>
+                  {connector.expirationTime < Date.now() ? (
+                    <div className={Styles.connector_red_dot}></div>
+                  ) : connector.expirationTime <
+                    Date.now() + 7 * 24 * 60 * 60 * 1000 ? (
+                    <div className={Styles.connector_orange_dot}></div>
+                  ) : (
+                    <div className={Styles.connector_green_dot}></div>
                   )}
                 </td>
                 <td className={Styles.connector_tbody_td}>
