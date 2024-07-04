@@ -135,3 +135,47 @@
   color: red;
   margin-bottom: 1rem;
 }
+
+.users_table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users_thead {
+  background-color: #f9f9f9;
+}
+
+.users_thead_tr {
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+}
+
+.users_thead_th {
+  padding: 1rem;
+  text-align: left;
+}
+
+.users_tbody {
+  background-color: #fff;
+}
+
+.users_tbody_tr {
+  border-bottom: 1px solid #ccc;
+}
+
+.users_tbody_td {
+  padding: 1rem;
+}
+
+.users_platform_icon {
+  max-width: 30px;
+  max-height: 30px;
+  object-fit: contain;
+}
+
+.users_delete_icon {
+  max-width: 20px;
+  max-height: 20px;
+  object-fit: contain;
+  cursor: pointer;
+}

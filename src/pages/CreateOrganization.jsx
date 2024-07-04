@@ -42,7 +42,7 @@ const CreateOrganization = () => {
       setError(response.errorMessage);
       return;
     } else {
-      return navigate("/login");
+      return navigate("/");
     }
   };
 

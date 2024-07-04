@@ -12,9 +12,12 @@ import AddIcon from "../icons/add.png";
 import CloseIcon from "../icons/close.png";
 import FacebookIcon from "../icons/facebook.png";
 import DeleteIcon from "../icons/delete.png";
+import ConfirmationBox from "../components/ConfirmationBox";
+import moment from "moment";
 
 const Connectors = () => {
   const [addConnectorOpen, setAddConnectorOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [error, setError] = useState("");
   const [response, setResponse] = useState();
 
@@ -95,8 +98,9 @@ const Connectors = () => {
       <table className={Styles.connector_table}>
         <thead className={Styles.connector_thead}>
           <tr className={Styles.connector_thead_tr}>
-            <th className={Styles.connector_thead_th}>Id</th>
+            <th className={Styles.connector_thead_th}>Email</th>
             <th className={Styles.connector_thead_th}>Platform</th>
+            <th className={Styles.connector_thead_th}>Expires In</th>
             <th className={Styles.connector_thead_th}>Delete</th>
           </tr>
         </thead>
@@ -104,7 +108,7 @@ const Connectors = () => {
           <tbody className={Styles.connector_tbody}>
             {response.map((connector) => (
               <tr className={Styles.connector_tbody_tr} key={connector.id}>
-                <td className={Styles.connector_tbody_td}>{connector.id}</td>
+                <td className={Styles.connector_tbody_td}>{connector.email}</td>
                 <td className={Styles.connector_tbody_td}>
                   {connector.platform === "FACEBOOK" ? (
                     <img
@@ -117,13 +121,35 @@ const Connectors = () => {
                   )}
                 </td>
                 <td className={Styles.connector_tbody_td}>
+                  <div className={Styles.connector_re_authentication}>
+                    {connector.expirationTime < Date.now() ? (
+                      <div className={Styles.connector_red_dot}></div>
+                    ) : connector.expirationTime <
+                      Date.now() + 7 * 24 * 60 * 60 * 1000 ? (
+                      <div className={Styles.connector_orange_dot}></div>
+                    ) : (
+                      <div className={Styles.connector_green_dot}></div>
+                    )}
+                    {moment(Date(connector.expirationTime)).format(
+                      "DD/MM/YYYY HH:mm"
+                    )}
+                  </div>
+                </td>
+                <td className={Styles.connector_tbody_td}>
                   <img
                     className={Styles.connector_delete_icon}
                     src={DeleteIcon}
                     alt="delete"
-                    onClick={() => handleDeleteConnector(connector.id)}
+                    onClick={() => setIsDeleteOpen(!isDeleteOpen)}
                   />
                 </td>
+                {isDeleteOpen && (
+                  <ConfirmationBox
+                    message="Are you sure you want to delete this connector?"
+                    confirm={() => handleDeleteConnector(connector.id)}
+                    cancel={() => setIsDeleteOpen(!isDeleteOpen)}
+                  />
+                )}
               </tr>
             ))}
           </tbody>
