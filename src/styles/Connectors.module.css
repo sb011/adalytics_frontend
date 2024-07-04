@@ -188,3 +188,9 @@
   border-radius: 50%;
   margin-right: 0.5rem;
 }
+
+.connector_re_authentication {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
