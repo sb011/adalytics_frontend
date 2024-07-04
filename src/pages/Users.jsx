@@ -3,7 +3,6 @@ import InviteIcon from "../icons/invite.png";
 import CloseIcon from "../icons/close.png";
 import DeleteIcon from "../icons/delete.png";
 
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getApiCall } from "../apis/ApiCall";
 import { GET_ALL_USERS_BY_ORGANIZATIONS_API } from "../apis/constants/ApiConstant";
@@ -16,7 +15,6 @@ const Users = () => {
   const [emailList, setEmailList] = useState([]);
   const [error, setError] = useState("");
   const [users, setUsers] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getUsers = async () => {

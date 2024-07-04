@@ -10,6 +10,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import CreateOrganization from "./pages/CreateOrganization";
 import Users from "./pages/Users";
+import VerifyUser from "./pages/VerifyUser";
 
 const ProtectedRoutes = () => {
   const localStorageToken = localStorage.getItem("token");
@@ -17,7 +18,7 @@ const ProtectedRoutes = () => {
   return localStorageToken ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
-const ALreadyLoggedIn = () => {
+const AlreadyLoggedIn = () => {
   const localStorageToken = localStorage.getItem("token");
 
   return localStorageToken ? <Navigate to="/" replace /> : <Outlet />;
@@ -44,7 +45,7 @@ const ComponentWithFooter = ({ page }) => {
 
 const routes = createBrowserRouter([
   {
-    element: <ALreadyLoggedIn />,
+    element: <AlreadyLoggedIn />,
     children: [
       {
         path: "/organization/create",
@@ -53,6 +54,10 @@ const routes = createBrowserRouter([
       {
         path: "/login",
         element: <ComponentWithFooter page={<Login />} />,
+      },
+      {
+        path: "/verify",
+        element: <ComponentWithFooter page={<VerifyUser />} />,
       },
     ],
   },

@@ -92,10 +92,7 @@ const CreateOrganization = () => {
           </button>
           <p className={styles.redirectText}>
             Already have an account?{" "}
-            <a
-              className={styles.redirectTextLink}
-              onClick={() => navigate("/login")}
-            >
+            <a href="/login" className={styles.redirectTextLink}>
               Login
             </a>
           </p>
