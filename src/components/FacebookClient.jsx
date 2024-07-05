@@ -1,11 +1,13 @@
 import FacebookIcon from "../icons/facebook.png";
 import Client from "./Client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { postApiCall } from "../apis/ApiCall";
 import { CREATE_CONNECTOR_API } from "../apis/constants/ApiConstant";
+import Loading from "./Loading";
 
 const FacebookClient = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     window.fbAsyncInit = function () {
       window.FB.init({
@@ -37,6 +39,7 @@ const FacebookClient = (props) => {
           window.FB.api(
             "/me?fields=email",
             function (profileResponse) {
+              setIsLoading(true);
               const requestBody = {
                 token: response.authResponse.accessToken,
                 platform: "FACEBOOK",
@@ -59,6 +62,7 @@ const FacebookClient = (props) => {
                   props.setError("Error creating connector: " + error.message);
                 })
                 .finally(() => {
+                  setIsLoading(false);
                   window.FB.logout();
                 });
             },
@@ -68,6 +72,7 @@ const FacebookClient = (props) => {
             }
           );
         } else {
+          setIsLoading(false);
           props.setError("User cancelled login or did not fully authorize.");
           window.FB.logout();
         }
@@ -78,6 +83,10 @@ const FacebookClient = (props) => {
       }
     );
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Client

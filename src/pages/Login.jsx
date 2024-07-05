@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { postApiCall } from "../apis/ApiCall";
 import { LOGIN_API } from "../apis/constants/ApiConstant";
+import Loading from "../components/Loading";
 
 const Login = () => {
   const user = {
@@ -16,6 +17,7 @@ const Login = () => {
   const [userInfo, setUserInfo] = useState(user);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
@@ -23,6 +25,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const validation = LoginValidation(userInfo);
     if (validation !== null) {
       setError(validation);
@@ -32,13 +35,19 @@ const Login = () => {
     const response = await postApiCall(LOGIN_API, userInfo);
     if (response.errorMessage) {
       setError(response.errorMessage);
+      setIsLoading(false);
       return;
     } else {
       if (response.token === undefined) return setError("Invalid credentials");
       localStorage.setItem("token", response.token);
+      setIsLoading(false);
       return navigate("/");
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className={styles.container}>

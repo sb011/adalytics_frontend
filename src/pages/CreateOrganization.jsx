@@ -6,6 +6,7 @@ import { postApiCall } from "../apis/ApiCall";
 import Logo from "../icons/logo.png";
 import styles from "../styles/Auth.module.css";
 import CreateOrganizationValidation from "../validations/CreateOrganizationValidation";
+import Loading from "../components/Loading";
 
 const CreateOrganization = () => {
   const organization = {
@@ -17,6 +18,7 @@ const CreateOrganization = () => {
 
   const [organizationInfo, setOrganizationInfo] = useState(organization);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -28,6 +30,7 @@ const CreateOrganization = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const validation = CreateOrganizationValidation(organizationInfo);
     if (validation !== null) {
       setError(validation);
@@ -40,11 +43,17 @@ const CreateOrganization = () => {
     );
     if (response.errorMessage) {
       setError(response.errorMessage);
+      setIsLoading(false);
       return;
     } else {
+      setIsLoading(false);
       return navigate("/");
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className={styles.container}>

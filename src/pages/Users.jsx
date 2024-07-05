@@ -4,9 +4,13 @@ import CloseIcon from "../icons/close.png";
 import DeleteIcon from "../icons/delete.png";
 
 import { useEffect, useState } from "react";
-import { getApiCall } from "../apis/ApiCall";
-import { GET_ALL_USERS_BY_ORGANIZATIONS_API } from "../apis/constants/ApiConstant";
+import { getApiCall, postApiCall } from "../apis/ApiCall";
+import {
+  GET_ALL_USERS_BY_ORGANIZATIONS_API,
+  INVITE_USER_API,
+} from "../apis/constants/ApiConstant";
 import ConfirmationBox from "../components/ConfirmationBox";
+import Loading from "../components/Loading";
 
 const Users = () => {
   const [addCreateUserOpen, setAddCreateUserOpen] = useState(false);
@@ -15,9 +19,11 @@ const Users = () => {
   const [emailList, setEmailList] = useState([]);
   const [error, setError] = useState("");
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getUsers = async () => {
+      setIsLoading(true);
       const apiResponse = await getApiCall(
         GET_ALL_USERS_BY_ORGANIZATIONS_API,
         localStorage.getItem("token")
@@ -31,27 +37,52 @@ const Users = () => {
       }
     };
 
-    getUsers().catch((error) => {
-      setError("Error getting users: " + error.message);
-    });
+    getUsers()
+      .catch((error) => {
+        setError("Error getting users: " + error.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   const addEmail = (event) => {
     if (event.target.value !== "" && event.key === "Enter") {
-      setEmailList([...emailList, event.target.value]);
+      const newEmail = { email: event.target.value };
+      setEmailList([...emailList, newEmail]);
       setEmail("");
     }
   };
 
   const removeEmail = (indexToRemove) => {
-    const t = emailList.filter((_, index) => index !== indexToRemove);
-    setEmailList(t);
+    const updatedEmailList = emailList.filter(
+      (_, index) => index !== indexToRemove
+    );
+    setEmailList(updatedEmailList);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(emailList);
+    setIsLoading(true);
+    const apiResponse = await postApiCall(
+      INVITE_USER_API,
+      emailList,
+      localStorage.getItem("token")
+    );
+    if (apiResponse.errorMessage) {
+      setError(apiResponse.errorMessage);
+      setIsLoading(false);
+      return;
+    } else {
+      setAddCreateUserOpen(false);
+      setEmailList([]);
+      setIsLoading(false);
+    }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className={Styles.users_container}>
@@ -85,7 +116,7 @@ const Users = () => {
               <div className={Styles.form}>
                 {emailList.map((email, index) => (
                   <div className={Styles.item_values} key={index}>
-                    <span className={Styles.value}>{email}</span>
+                    <span className={Styles.value}>{email.email}</span>
                     <span
                       className={Styles.remove}
                       onClick={() => removeEmail(index)}
