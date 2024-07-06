@@ -4,8 +4,9 @@ import CloseIcon from "../icons/close.png";
 import DeleteIcon from "../icons/delete.png";
 
 import { useEffect, useState } from "react";
-import { getApiCall, postApiCall } from "../apis/ApiCall";
+import { deleteApiCall, getApiCall, postApiCall } from "../apis/ApiCall";
 import {
+  DELETE_USER_API,
   GET_ALL_USERS_BY_ORGANIZATIONS_API,
   INVITE_USER_API,
 } from "../apis/constants/ApiConstant";
@@ -78,6 +79,22 @@ const Users = () => {
       setEmailList([]);
       setIsLoading(false);
     }
+  };
+
+  const handleDelete = async (id) => {
+    setIsLoading(true);
+    const apiResponse = await deleteApiCall(
+      DELETE_USER_API(id),
+      localStorage.getItem("token")
+    );
+    if (apiResponse.errorMessage) {
+      setError(apiResponse.errorMessage);
+      return;
+    } else {
+      setIsDeleteOpen(false);
+      setUsers(users.filter((user) => user.id !== id));
+    }
+    setIsLoading(false);
   };
 
   if (isLoading) {
@@ -165,17 +182,18 @@ const Users = () => {
                     onClick={() => setIsDeleteOpen(!isDeleteOpen)}
                   />
                 </td>
+                {isDeleteOpen && (
+                  <ConfirmationBox
+                    message="Are you sure you want to delete this user?"
+                    confirm={() => handleDelete(user.id)}
+                    cancel={() => setIsDeleteOpen(!isDeleteOpen)}
+                  />
+                )}
               </tr>
             ))}
           </tbody>
         )}
       </table>
-      {isDeleteOpen && (
-        <ConfirmationBox
-          message="Are you sure you want to delete this user?"
-          cancel={() => setIsDeleteOpen(!isDeleteOpen)}
-        />
-      )}
       {users && users.length === 0 && (
         <p className={Styles.connector_error}>No connectors found</p>
       )}

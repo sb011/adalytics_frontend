@@ -47,7 +47,7 @@ const CreateOrganization = () => {
       return;
     } else {
       setIsLoading(false);
-      return navigate("/");
+      return navigate("/verify-email");
     }
   };
 

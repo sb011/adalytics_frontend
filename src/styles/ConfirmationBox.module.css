@@ -22,45 +22,50 @@
 }
 
 .confirmation_header {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bolder;
   margin-bottom: 1rem;
-  text-align: center;
+  border-bottom: var(--border);
+  padding-bottom: 1rem;
 }
 
 .confirmation_btn_container {
+  width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: end;
   gap: 1rem;
 }
 
 .confirmation_confirm_btn {
-  padding: 0.8rem;
+  padding: 0.5rem;
   border: 1px solid var(--primary-color);
   border-radius: var(--small-border-radius);
   cursor: pointer;
   transition: all 400ms ease-in-out;
   color: var(--primary-color);
+  font-size: 0.8rem;
+  background-color: var(--primary-color);
+  color: #fff;
+  opacity: 0.8;
 }
 
 .confirmation_confirm_btn:hover {
-  background-color: var(--primary-color);
-  color: #fff;
+  opacity: 1;
 }
 
 .confirmation_cancel_btn {
-  padding: 0.8rem;
-  border: 1px solid #ff0000;
+  padding: 0.5rem;
+  border: 1px solid var(--black-color);
   border-radius: var(--small-border-radius);
-  color: #ff0000;
+  color: var(--black-color);
   cursor: pointer;
   transition: all 400ms ease-in-out;
+  font-size: 0.8rem;
+  opacity: 0.8;
 }
 
 .confirmation_cancel_btn:hover {
-  background-color: #ff0000;
-  color: #fff;
+  opacity: 1;
 }
 
 .confirmation_cancel_btn:hover {

@@ -132,8 +132,16 @@
 }
 
 .error {
-  color: red;
-  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 100%;
+  text-align: center;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: var(--border-radius);
+  border: 1px solid #ff0000;
+  background-color: #ffcccc;
+  color: #ff0000;
 }
 
 .users_table {

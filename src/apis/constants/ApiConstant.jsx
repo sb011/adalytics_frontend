@@ -10,3 +10,5 @@ export const GET_ALL_USERS_BY_ORGANIZATIONS_API = `${BASE_URL}api/v1/organizatio
 export const VERIFY_USER_API = (token) =>
   `${BASE_URL}api/v1/auth/verify?token=${token}`;
 export const INVITE_USER_API = `${BASE_URL}api/v1/organization/invite`;
+export const DELETE_USER_API = (user_id) =>
+  `${BASE_URL}api/v1/organization/users/${user_id}`;

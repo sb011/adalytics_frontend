@@ -20,6 +20,7 @@ const Connectors = () => {
   const [addConnectorOpen, setAddConnectorOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [error, setError] = useState("");
+  const [mainError, setMainError] = useState("");
   const [response, setResponse] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,17 +32,16 @@ const Connectors = () => {
         localStorage.getItem("token")
       );
       if (apiResponse.errorMessage) {
-        setError(apiResponse.errorMessage);
+        setMainError(apiResponse.errorMessage);
         return;
       } else {
         setResponse(apiResponse);
-        console.log(apiResponse);
       }
     };
 
     getAllConnectors()
       .catch((error) => {
-        setError("Error getting connectors: " + error.message);
+        setMainError("Error getting connectors: " + error.message);
       })
       .finally(() => {
         setIsLoading(false);
@@ -55,7 +55,7 @@ const Connectors = () => {
       localStorage.getItem("token")
     );
     if (apiResponse.errorMessage) {
-      setError(apiResponse.errorMessage);
+      setMainError(apiResponse.errorMessage);
       setIsLoading(false);
       return;
     } else {
@@ -109,6 +109,7 @@ const Connectors = () => {
           </div>
         )}
       </div>
+      {mainError && <p className={Styles.connector_error}>{mainError}</p>}
       <table className={Styles.connector_table}>
         <thead className={Styles.connector_thead}>
           <tr className={Styles.connector_thead_tr}>

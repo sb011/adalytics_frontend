@@ -11,6 +11,7 @@ import Terms from "./pages/Terms";
 import CreateOrganization from "./pages/CreateOrganization";
 import Users from "./pages/Users";
 import VerifyUser from "./pages/VerifyUser";
+import WaitForEmailVerify from "./pages/WaitForEmailVerify";
 
 const ProtectedRoutes = () => {
   const localStorageToken = localStorage.getItem("token");
@@ -58,6 +59,10 @@ const routes = createBrowserRouter([
       {
         path: "/verify",
         element: <ComponentWithFooter page={<VerifyUser />} />,
+      },
+      {
+        path: "/verify-email",
+        element: <ComponentWithFooter page={<WaitForEmailVerify />} />,
       },
     ],
   },
