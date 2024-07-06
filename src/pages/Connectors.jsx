@@ -14,45 +14,59 @@ import FacebookIcon from "../icons/facebook.png";
 import DeleteIcon from "../icons/delete.png";
 import ConfirmationBox from "../components/ConfirmationBox";
 import moment from "moment";
+import Loading from "../components/Loading";
 
 const Connectors = () => {
   const [addConnectorOpen, setAddConnectorOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [error, setError] = useState("");
+  const [mainError, setMainError] = useState("");
   const [response, setResponse] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getAllConnectors = async () => {
+      setIsLoading(true);
       const apiResponse = await getApiCall(
         GET_ALL_CONNECTORS_API,
         localStorage.getItem("token")
       );
       if (apiResponse.errorMessage) {
-        setError(apiResponse.errorMessage);
+        setMainError(apiResponse.errorMessage);
         return;
       } else {
         setResponse(apiResponse);
-        console.log(apiResponse);
       }
     };
 
-    getAllConnectors().catch((error) => {
-      setError("Error getting connectors: " + error.message);
-    });
+    getAllConnectors()
+      .catch((error) => {
+        setMainError("Error getting connectors: " + error.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   const handleDeleteConnector = async (id) => {
+    setIsLoading(true);
     const apiResponse = await deleteApiCall(
       DELETE_CONNECTOR_API(id),
       localStorage.getItem("token")
     );
     if (apiResponse.errorMessage) {
-      setError(apiResponse.errorMessage);
+      setMainError(apiResponse.errorMessage);
+      setIsLoading(false);
       return;
     } else {
       setResponse(response.filter((connector) => connector.id !== id));
     }
+    setIsLoading(false);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className={Styles.connector_container}>
@@ -95,6 +109,7 @@ const Connectors = () => {
           </div>
         )}
       </div>
+      {mainError && <p className={Styles.connector_error}>{mainError}</p>}
       <table className={Styles.connector_table}>
         <thead className={Styles.connector_thead}>
           <tr className={Styles.connector_thead_tr}>
