@@ -8,78 +8,79 @@ import Loading from "./Loading";
 
 const FacebookClient = (props) => {
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    window.fbAsyncInit = function () {
+
+  const initializeFacebookSDK = () => {
+    window.fbAsyncInit = () => {
       window.FB.init({
         appId: process.env.REACT_APP_FACEBOOK_APP_ID,
         xfbml: true,
+        cookie: true,
         version: process.env.REACT_APP_FACEBOOK_API_VERSION,
       });
-
       window.FB.AppEvents.logPageView();
     };
 
-    (function (d, s, id) {
-      var js,
-        fjs = d.getElementsByTagName(s)[0];
+    const loadFacebookSDK = (d, s, id) => {
+      const fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {
         return;
       }
-      js = d.createElement(s);
+      const js = d.createElement(s);
       js.id = id;
       js.src = "https://connect.facebook.net/en_US/sdk.js";
       fjs.parentNode.insertBefore(js, fjs);
-    })(document, "script", "facebook-jssdk");
+    };
+
+    loadFacebookSDK(document, "script", "facebook-jssdk");
+  };
+
+  useEffect(() => {
+    initializeFacebookSDK();
   }, []);
 
   const handleFacebookLogin = async () => {
     window.FB.login(
-      function (response) {
-        if (response.authResponse && response.status === "connected") {
-          window.FB.api(
-            "/me?fields=email",
-            function (profileResponse) {
-              setIsLoading(true);
-              const requestBody = {
-                token: response.authResponse.accessToken,
-                platform: "FACEBOOK",
-                platformUserId: response.authResponse.userID,
-                email: profileResponse.email,
-              };
-              postApiCall(
-                CREATE_CONNECTOR_API,
-                requestBody,
-                localStorage.getItem("token")
-              )
-                .then((response) => {
-                  if (response.errorMessage) {
-                    props.setError(response.errorMessage);
-                  } else {
-                    window.location.reload();
-                  }
-                })
-                .catch((error) => {
-                  props.setError("Error creating connector: " + error.message);
-                })
-                .finally(() => {
-                  setIsLoading(false);
-                  window.FB.logout();
-                });
-            },
-            {
-              scope: "email",
-              return_scopes: true,
-            }
-          );
+      (response) => {
+        console.log(response);
+        if (response.authResponse) {
+          const { accessToken, userID } = response.authResponse;
+
+          window.FB.api("/me?fields=email", (profileResponse) => {
+            setIsLoading(true);
+            const requestBody = {
+              token: accessToken,
+              platform: "FACEBOOK",
+              platformUserId: userID,
+              email: profileResponse.email,
+            };
+
+            postApiCall(
+              CREATE_CONNECTOR_API,
+              requestBody,
+              localStorage.getItem("token")
+            )
+              .then((response) => {
+                if (response.errorMessage) {
+                  props.setError(response.errorMessage);
+                } else {
+                  window.location.reload();
+                }
+              })
+              .catch((error) => {
+                props.setError("Error creating connector: " + error.message);
+              })
+              .finally(() => {
+                setIsLoading(false);
+              });
+          });
         } else {
           setIsLoading(false);
           props.setError("User cancelled login or did not fully authorize.");
-          window.FB.logout();
         }
       },
       {
-        scope: "email",
-        return_scopes: true,
+        scope: "email,public_profile",
+        config_id: process.env.REACT_APP_FACEBOOK_COFIG_ID,
       }
     );
   };
