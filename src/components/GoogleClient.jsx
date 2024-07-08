@@ -9,14 +9,13 @@ import Loading from "./Loading";
 const GoogleClient = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleLoginSuccess = async (tokenResponse) => {
-    console.log("Token Response:", tokenResponse);
     const userInfo = await getApiCall(
       "https://www.googleapis.com/oauth2/v3/userinfo",
       tokenResponse.access_token
     );
 
     if (userInfo.errorMessage) {
-      console.log("User Info Error:", userInfo.errorMessage);
+      props.setError(userInfo.errorMessage);
       return;
     } else {
       const requestBody = {
