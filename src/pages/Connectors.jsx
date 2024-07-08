@@ -11,6 +11,7 @@ import {
 import AddIcon from "../icons/add.png";
 import CloseIcon from "../icons/close.png";
 import FacebookIcon from "../icons/facebook.png";
+import GoogleIcon from "../icons/google.png";
 import DeleteIcon from "../icons/delete.png";
 import ConfirmationBox from "../components/ConfirmationBox";
 import moment from "moment";
@@ -137,6 +138,12 @@ const Connectors = () => {
                       className={Styles.connector_platform_icon}
                       src={FacebookIcon}
                       alt="facebook"
+                    />
+                  ) : connector.platform === "GOOGLE" ? (
+                    <img
+                      className={Styles.connector_platform_icon}
+                      src={GoogleIcon}
+                      alt="google"
                     />
                   ) : (
                     "Unknown"
