@@ -186,7 +186,7 @@ const Users = () => {
                   <ConfirmationBox
                     message="Are you sure you want to delete this user?"
                     confirm={() => handleDelete(user.id)}
-                    cancel={() => setIsDeleteOpen(!isDeleteOpen)}
+                    setBoxOpen={setIsDeleteOpen}
                   />
                 )}
               </tr>

@@ -15,6 +15,8 @@ import DeleteIcon from "../icons/delete.png";
 import ConfirmationBox from "../components/ConfirmationBox";
 import moment from "moment";
 import Loading from "../components/Loading";
+import GoogleClient from "../components/GoogleClient";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const Connectors = () => {
   const [addConnectorOpen, setAddConnectorOpen] = useState(false);
@@ -104,6 +106,11 @@ const Connectors = () => {
               {error && <p className={Styles.connector_error}>{error}</p>}
               <div className={Styles.connector_grid}>
                 <FacebookClient setError={setError} />
+                <GoogleOAuthProvider
+                  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                >
+                  <GoogleClient setError={setError} />
+                </GoogleOAuthProvider>
               </div>
             </div>
           </div>
@@ -162,7 +169,7 @@ const Connectors = () => {
                   <ConfirmationBox
                     message="Are you sure you want to delete this connector?"
                     confirm={() => handleDeleteConnector(connector.id)}
-                    cancel={() => setIsDeleteOpen(!isDeleteOpen)}
+                    setBoxOpen={setIsDeleteOpen}
                   />
                 )}
               </tr>
