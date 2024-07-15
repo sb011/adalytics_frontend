@@ -12,3 +12,10 @@ export const VERIFY_USER_API = (token) =>
 export const INVITE_USER_API = `${BASE_URL}api/v1/organization/invite`;
 export const DELETE_USER_API = (user_id) =>
   `${BASE_URL}api/v1/organization/users/${user_id}`;
+export const GET_ALL_GROUPS_API = `${BASE_URL}api/v1/groups/`;
+export const DELETE_METRIC_API = (metric_id) =>
+  `${BASE_URL}api/v1/metrics/${metric_id}`;
+export const DELETE_GROUP_API = (group_id) =>
+  `${BASE_URL}api/v1/groups/${group_id}`;
+export const CREATE_GROUP_API = `${BASE_URL}api/v1/groups/`;
+export const CREATE_METRIC_API = `${BASE_URL}api/v1/metrics/`;

@@ -12,6 +12,9 @@ import {
 } from "../apis/constants/ApiConstant";
 import ConfirmationBox from "../components/ConfirmationBox";
 import Loading from "../components/Loading";
+import ErrorBox from "../components/Toast";
+import NoContent from "../components/NoContent";
+import Toast from "../components/Toast";
 
 const Users = () => {
   const [addCreateUserOpen, setAddCreateUserOpen] = useState(false);
@@ -34,7 +37,6 @@ const Users = () => {
         return;
       } else {
         setUsers(apiResponse);
-        console.log(apiResponse);
       }
     };
 
@@ -152,50 +154,55 @@ const Users = () => {
                   onKeyDown={addEmail}
                 />
               </div>
-              {error && <p className={Styles.error}>{error}</p>}
-              <button className={Styles.btn} onClick={handleSubmit}>
-                Invite
-              </button>
+              <div className={Styles.btn_container}>
+                <button className={Styles.btn} onClick={handleSubmit}>
+                  Invite
+                </button>
+              </div>
             </div>
           </div>
         )}
       </div>
-      <table className={Styles.users_table}>
-        <thead className={Styles.users_thead}>
-          <tr className={Styles.users_thead_tr}>
-            <th className={Styles.users_thead_th}>Email</th>
-            <th className={Styles.users_thead_th}>Username</th>
-            <th className={Styles.users_thead_th}>Delete</th>
-          </tr>
-        </thead>
-        {users && users.length > 0 && (
-          <tbody className={Styles.connector_tbody}>
-            {users.map((user) => (
-              <tr className={Styles.users_tbody_tr} key={user.id}>
-                <td className={Styles.users_tbody_td}>{user.email}</td>
-                <td className={Styles.users_tbody_td}>{user.username}</td>
-                <td className={Styles.users_tbody_td}>
-                  <img
-                    className={Styles.users_delete_icon}
-                    src={DeleteIcon}
-                    alt="delete"
-                    onClick={() => setIsDeleteOpen(!isDeleteOpen)}
-                  />
-                </td>
-                {isDeleteOpen && (
-                  <ConfirmationBox
-                    message="Are you sure you want to delete this user?"
-                    confirm={() => handleDelete(user.id)}
-                    setBoxOpen={setIsDeleteOpen}
-                  />
-                )}
-              </tr>
-            ))}
-          </tbody>
-        )}
-      </table>
-      {users && users.length === 0 && (
-        <p className={Styles.connector_error}>No connectors found</p>
+      {users && users.length > 0 ? (
+        <table className={Styles.users_table}>
+          <thead className={Styles.users_thead}>
+            <tr className={Styles.users_thead_tr}>
+              <th className={Styles.users_thead_th}>Email</th>
+              <th className={Styles.users_thead_th}>Username</th>
+              <th className={Styles.users_thead_th}>Delete</th>
+            </tr>
+          </thead>
+          {users && users.length > 0 && (
+            <tbody className={Styles.connector_tbody}>
+              {users.map((user) => (
+                <tr className={Styles.users_tbody_tr} key={user.id}>
+                  <td className={Styles.users_tbody_td}>{user.email}</td>
+                  <td className={Styles.users_tbody_td}>{user.username}</td>
+                  <td className={Styles.users_tbody_td}>
+                    <img
+                      className={Styles.users_delete_icon}
+                      src={DeleteIcon}
+                      alt="delete"
+                      onClick={() => setIsDeleteOpen(!isDeleteOpen)}
+                    />
+                  </td>
+                  {isDeleteOpen && (
+                    <ConfirmationBox
+                      message="Are you sure you want to delete this user?"
+                      confirm={() => handleDelete(user.id)}
+                      setBoxOpen={setIsDeleteOpen}
+                    />
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          )}
+        </table>
+      ) : (
+        <NoContent message="No users found" />
+      )}
+      {error && (
+        <Toast message={error} messageType="error" setMessage={setError} />
       )}
     </div>
   );

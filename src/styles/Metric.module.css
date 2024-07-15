@@ -1,0 +1,61 @@
+.metric {
+  width: 100%;
+  position: relative;
+}
+
+.metric_topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 1rem 0.5rem 0;
+}
+
+.metric_name {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.metric_menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1rem;
+}
+
+.metric_menu_icon {
+  width: 100%;
+  object-fit: contain;
+}
+
+.metric_nav {
+  display: none;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.metric_nav_open {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  z-index: 10;
+  right: 0;
+  top: 8%;
+}
+
+.metric_nav_link {
+  width: 100%;
+  text-decoration: none;
+  color: #000;
+  margin: 0 10px;
+  padding: 0.2rem 0.5rem;
+  border-bottom: var(--border);
+}
+
+.metric_nav_link:hover {
+  background-color: #f5f5f5;
+}

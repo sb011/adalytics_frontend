@@ -1,0 +1,130 @@
+.dashboards_container {
+  display: flex;
+  width: 100%;
+  position: relative;
+  flex-direction: column;
+  padding: 0 2rem;
+  margin-top: 1rem;
+}
+
+.dashboards_topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.dashboards_header {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.dashboards_groups {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.dashboards_add_btn_container {
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  color: var(--primary-color);
+  border: var(--border);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.dashboards_add_btn {
+  max-width: 30px;
+  max-height: 30px;
+  cursor: pointer;
+}
+
+.dashboards_add_icon {
+  width: 100%;
+  object-fit: contain;
+}
+
+.dashboards_add_btn_txt {
+  margin: 0 0.5rem;
+}
+
+.dashboards_box {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 11;
+  top: 0;
+  left: 0;
+}
+
+.dashboards_box_container {
+  width: 50%;
+  background-color: var(--white-color);
+  border-radius: var(--border-radius);
+}
+
+.dashboards_add_topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: var(--border);
+  padding-bottom: 1rem;
+  padding: 1rem;
+}
+
+.dashboards_box_header {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+
+.input {
+  padding: 1rem;
+  margin: 0 1rem;
+  border: var(--border);
+  border-radius: var(--border-radius);
+}
+
+.btn_container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.btn {
+  width: 15%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  cursor: pointer;
+  margin: 1rem;
+}
+
+.dashboards_add_btns {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.select_default {
+  color: #888;
+}

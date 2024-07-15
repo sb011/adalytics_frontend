@@ -26,6 +26,9 @@ const Header = () => {
         </a>
       </div>
       <div className={Styles.header_right_container}>
+        <a className={Styles.header_nav_link} href="/dashboards">
+          Dashboards
+        </a>
         <a className={Styles.header_nav_link} href="/connectors">
           Connectors
         </a>
