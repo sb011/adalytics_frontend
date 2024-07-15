@@ -21,6 +21,7 @@
   justify-content: center;
   align-items: center;
   width: 1rem;
+  cursor: pointer;
 }
 
 .metric_menu_icon {

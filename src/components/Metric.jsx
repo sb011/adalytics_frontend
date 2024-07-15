@@ -5,12 +5,14 @@ import MenuIcon from "../icons/menu.png";
 import ConfirmationBox from "./ConfirmationBox";
 import { deleteApiCall } from "../apis/ApiCall";
 import { DELETE_METRIC_API } from "../apis/constants/ApiConstant";
+import ViewMetric from "./ViewMetric";
 
 Chart.register(...registerables);
 
 const Metric = ({ metric, group, groups, setGroups }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isViewOpen, setIsViewOpen] = useState(false);
   const chartRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -87,7 +89,7 @@ const Metric = ({ metric, group, groups, setGroups }) => {
     return () => {
       chartRef.current.destroy();
     };
-  }, []);
+  }, [metric.metricType]);
 
   const handleDelete = async () => {
     const response = await deleteApiCall(
@@ -125,7 +127,12 @@ const Metric = ({ metric, group, groups, setGroups }) => {
             isMenuOpen ? Styles.metric_nav_open : ""
           }`}
         >
-          <div className={Styles.metric_nav_link}>View</div>
+          <div
+            className={Styles.metric_nav_link}
+            onClick={() => setIsViewOpen(!isViewOpen)}
+          >
+            View
+          </div>
           <div className={Styles.metric_nav_link}>Edit</div>
           <div
             className={Styles.metric_nav_link}
@@ -139,6 +146,14 @@ const Metric = ({ metric, group, groups, setGroups }) => {
             message="Are you sure you want to delete this metric?"
             confirm={() => handleDelete()}
             setBoxOpen={setIsDeleteOpen}
+          />
+        )}
+        {isViewOpen && (
+          <ViewMetric
+            metric={metric}
+            setIsViewOpen={setIsViewOpen}
+            isViewOpen={isViewOpen}
+            canvasRef={canvasRef}
           />
         )}
       </div>

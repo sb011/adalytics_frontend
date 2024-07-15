@@ -12,7 +12,6 @@ import {
 } from "../apis/constants/ApiConstant";
 import ConfirmationBox from "../components/ConfirmationBox";
 import Loading from "../components/Loading";
-import ErrorBox from "../components/Toast";
 import NoContent from "../components/NoContent";
 import Toast from "../components/Toast";
 

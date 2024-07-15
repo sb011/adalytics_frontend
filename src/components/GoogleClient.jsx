@@ -1,7 +1,7 @@
 import Client from "./Client";
 import GoogleIcon from "../icons/google.png";
 import { useGoogleLogin } from "@react-oauth/google";
-import { getApiCall, postApiCall } from "../apis/ApiCall";
+import { postApiCall } from "../apis/ApiCall";
 import { useState } from "react";
 import { CREATE_CONNECTOR_API } from "../apis/constants/ApiConstant";
 import Loading from "./Loading";

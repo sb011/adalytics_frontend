@@ -43,6 +43,7 @@
   background: none;
   border: none;
   outline: none;
+  transform: rotate(180deg);
 }
 
 .group_open_icon {

@@ -3,7 +3,6 @@ import Styles from "../styles/Group.module.css";
 import Metric from "./Metric";
 import ArrowDownIcon from "../icons/arrow_down.png";
 import DeleteIcon from "../icons/delete.png";
-import EditIcon from "../icons/edit.png";
 import { deleteApiCall } from "../apis/ApiCall";
 import { DELETE_GROUP_API } from "../apis/constants/ApiConstant";
 import ConfirmationBox from "./ConfirmationBox";
@@ -15,7 +14,7 @@ const Group = ({ group, groups, setGroups }) => {
 
   const handleArrowClick = () => {
     setIsOpen(!isOpen);
-    arrowRef.current.style.transform = `rotate(${isOpen ? "180deg" : "0deg"})`;
+    arrowRef.current.style.transform = `rotate(${isOpen ? "0deg" : "180deg"})`;
   };
 
   const handleDelete = async () => {

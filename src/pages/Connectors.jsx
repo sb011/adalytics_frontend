@@ -18,7 +18,6 @@ import moment from "moment";
 import Loading from "../components/Loading";
 import GoogleClient from "../components/GoogleClient";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import ErrorBox from "../components/Toast";
 import NoContent from "../components/NoContent";
 import Toast from "../components/Toast";
 
