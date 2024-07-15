@@ -15,6 +15,7 @@ import WaitForEmailVerify from "./pages/WaitForEmailVerify";
 import Dashboards from "./pages/Dashboards";
 
 import "./index.css";
+import ViewMetric from "./pages/ViewMetric";
 
 const ProtectedRoutes = () => {
   const localStorageToken = localStorage.getItem("token");
@@ -95,6 +96,10 @@ const routes = createBrowserRouter([
       {
         path: "/dashboards",
         element: <ComponentWithHeaderAndFooter page={<Dashboards />} />,
+      },
+      {
+        path: "/dashboards/metric/:id",
+        element: <ComponentWithHeaderAndFooter page={<ViewMetric />} />,
       },
     ],
   },

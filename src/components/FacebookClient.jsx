@@ -50,12 +50,10 @@ const FacebookClient = (props) => {
             const requestBody = {
               token: accessToken,
               platform: "FACEBOOK",
-              platformUserId: userID,
-              email: profileResponse.email,
             };
 
             postApiCall(
-              CREATE_CONNECTOR_API,
+              CREATE_CONNECTOR_API("FACEBOOK"),
               requestBody,
               localStorage.getItem("token")
             )

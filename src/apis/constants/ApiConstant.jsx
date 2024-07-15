@@ -1,7 +1,8 @@
 export const BASE_URL = process.env.REACT_APP_BASE_URL;
 export const SIGNUP_API = `${BASE_URL}api/v1/auth/signup`;
 export const LOGIN_API = `${BASE_URL}api/v1/auth/login`;
-export const CREATE_CONNECTOR_API = `${BASE_URL}api/v1/connectors/`;
+export const CREATE_CONNECTOR_API = (platform) =>
+  `${BASE_URL}api/v1/connectors/?platform=${platform}`;
 export const GET_ALL_CONNECTORS_API = `${BASE_URL}api/v1/connectors/`;
 export const DELETE_CONNECTOR_API = (connector_id) =>
   `${BASE_URL}api/v1/connectors/${connector_id}`;
@@ -19,3 +20,5 @@ export const DELETE_GROUP_API = (group_id) =>
   `${BASE_URL}api/v1/groups/${group_id}`;
 export const CREATE_GROUP_API = `${BASE_URL}api/v1/groups/`;
 export const CREATE_METRIC_API = `${BASE_URL}api/v1/metrics/`;
+export const GET_METRIC_BY_ID_API = (metric_id) =>
+  `${BASE_URL}api/v1/metrics/${metric_id}`;

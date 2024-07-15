@@ -37,7 +37,6 @@ const Group = ({ group, groups, setGroups }) => {
     <div className={Styles.group_container}>
       <div className={Styles.group_topbar}>
         <div className={Styles.group_name_box}>
-          <h1 className={Styles.group_name}>{group.name}</h1>
           <button
             className={Styles.group_open_icon_box}
             onClick={handleArrowClick}
@@ -49,6 +48,7 @@ const Group = ({ group, groups, setGroups }) => {
               alt="arrow_down"
             />
           </button>
+          <h1 className={Styles.group_name}>{group.name}</h1>
         </div>
         <div
           className={Styles.group_delete_box}

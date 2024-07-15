@@ -5,16 +5,16 @@ import MenuIcon from "../icons/menu.png";
 import ConfirmationBox from "./ConfirmationBox";
 import { deleteApiCall } from "../apis/ApiCall";
 import { DELETE_METRIC_API } from "../apis/constants/ApiConstant";
-import ViewMetric from "./ViewMetric";
+import { useNavigate } from "react-router-dom";
 
 Chart.register(...registerables);
 
 const Metric = ({ metric, group, groups, setGroups }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [isViewOpen, setIsViewOpen] = useState(false);
   const chartRef = useRef(null);
   const canvasRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
@@ -112,6 +112,10 @@ const Metric = ({ metric, group, groups, setGroups }) => {
     }
   };
 
+  const handleViewOpen = () => {
+    return navigate(`/dashboards/metric/${metric.id}`);
+  };
+
   return (
     <div className={Styles.metric}>
       <div className={Styles.metric_topbar}>
@@ -127,10 +131,7 @@ const Metric = ({ metric, group, groups, setGroups }) => {
             isMenuOpen ? Styles.metric_nav_open : ""
           }`}
         >
-          <div
-            className={Styles.metric_nav_link}
-            onClick={() => setIsViewOpen(!isViewOpen)}
-          >
+          <div className={Styles.metric_nav_link} onClick={handleViewOpen}>
             View
           </div>
           <div className={Styles.metric_nav_link}>Edit</div>
@@ -146,14 +147,6 @@ const Metric = ({ metric, group, groups, setGroups }) => {
             message="Are you sure you want to delete this metric?"
             confirm={() => handleDelete()}
             setBoxOpen={setIsDeleteOpen}
-          />
-        )}
-        {isViewOpen && (
-          <ViewMetric
-            metric={metric}
-            setIsViewOpen={setIsViewOpen}
-            isViewOpen={isViewOpen}
-            canvasRef={canvasRef}
           />
         )}
       </div>

@@ -14,7 +14,7 @@ const GoogleClient = (props) => {
       token: tokenResponse.code,
       platform: "GOOGLE",
     };
-
+    console.log(requestBody);
     postApiCall(
       CREATE_CONNECTOR_API,
       requestBody,
@@ -24,7 +24,7 @@ const GoogleClient = (props) => {
         if (response.errorMessage) {
           props.setError(response.errorMessage);
         } else {
-          window.location.reload();
+          // window.location.reload();
         }
       })
       .catch((error) => {

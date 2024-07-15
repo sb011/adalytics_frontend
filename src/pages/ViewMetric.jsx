@@ -1,13 +1,49 @@
-import { useEffect, useRef } from "react";
-import CloseIcon from "../icons/close.png";
+import { useEffect, useRef, useState } from "react";
 import Styles from "../styles/ViewMetric.module.css";
 import { Chart } from "chart.js";
+import { useParams } from "react-router-dom";
+import { getApiCall } from "../apis/ApiCall";
+import { GET_METRIC_BY_ID_API } from "../apis/constants/ApiConstant";
+import Loading from "../components/Loading";
+import Toast from "../components/Toast";
 
-const ViewMetric = ({ metric, setIsViewOpen, isViewOpen, canvasRef }) => {
-  const chartInstanceRef = useRef(null);
+const ViewMetric = () => {
+  const [metric, setMetric] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const chartRef = useRef(null);
+  const canvasRef = useRef(null);
+
+  const { id } = useParams();
 
   useEffect(() => {
-    if (canvasRef.current) {
+    const getMetricById = async () => {
+      setIsLoading(true);
+      const apiResponse = await getApiCall(
+        GET_METRIC_BY_ID_API(id),
+        localStorage.getItem("token")
+      );
+      if (apiResponse.errorMessage) {
+        setError(apiResponse.errorMessage);
+        return;
+      } else {
+        setMetric(apiResponse);
+        console.log(apiResponse);
+      }
+    };
+
+    getMetricById()
+      .catch((error) => {
+        setError("Error getting metric: " + error.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [id]);
+
+  useEffect(() => {
+    if (metric.metricType && canvasRef.current) {
       const ctx = canvasRef.current.getContext("2d");
 
       const data = {
@@ -55,6 +91,9 @@ const ViewMetric = ({ metric, setIsViewOpen, isViewOpen, canvasRef }) => {
       };
 
       const options = {
+        responsive: true,
+        maintainAspectRatio: true,
+        aspectRatio: 2 | 3,
         plugins: {
           // title: {
           //   display: true,
@@ -75,45 +114,35 @@ const ViewMetric = ({ metric, setIsViewOpen, isViewOpen, canvasRef }) => {
         },
       };
 
-      if (chartInstanceRef.current) {
-        chartInstanceRef.current.destroy();
+      if (chartRef.current) {
+        chartRef.current.destroy();
       }
 
-      // Create a new chart instance
-      chartInstanceRef.current = new Chart(ctx, {
-        type: metric.metricType.toLowerCase(), // or 'line', 'pie', etc.
+      chartRef.current = new Chart(ctx, {
+        type: metric.metricType.toLowerCase(),
         data: data,
         options: options,
       });
-    }
 
-    return () => {
-      if (chartInstanceRef.current) {
-        chartInstanceRef.current.destroy();
-      }
-    };
-  }, [canvasRef, metric.metricType]);
+      return () => {
+        chartRef.current.destroy();
+      };
+    }
+  }, [metric.metricType]);
+
+  if (isLoading) {
+    <Loading />;
+  }
 
   return (
     <div className={Styles.view_metric_box}>
-      <div className={Styles.view_metric_box_container}>
-        <div className={Styles.view_metric_topbar}>
-          <h1 className={Styles.view_metric_box_header}>{metric.name}</h1>
-          <div
-            className={Styles.view_metric_add_btn}
-            onClick={() => setIsViewOpen(!isViewOpen)}
-          >
-            <img
-              className={Styles.view_metric_add_icon}
-              src={CloseIcon}
-              alt="close"
-            />
-          </div>
-        </div>
-        <div className={Styles.view_metric}>
-          <canvas ref={canvasRef}></canvas>
-        </div>
+      <div className={Styles.view_metric_topbar}>
+        <h1 className={Styles.view_metric_box_header}>{metric.name}</h1>
       </div>
+      <canvas ref={canvasRef} width="100%"></canvas>
+      {error && (
+        <Toast message={error} messageType="error" setMessage={setError} />
+      )}
     </div>
   );
 };
