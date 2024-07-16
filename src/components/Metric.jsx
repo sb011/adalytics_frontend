@@ -6,12 +6,21 @@ import ConfirmationBox from "./ConfirmationBox";
 import { deleteApiCall } from "../apis/ApiCall";
 import { DELETE_METRIC_API } from "../apis/constants/ApiConstant";
 import { useNavigate } from "react-router-dom";
+import AddMetric from "./AddMetric";
 
 Chart.register(...registerables);
 
-const Metric = ({ metric, group, groups, setGroups }) => {
+const Metric = ({
+  metric,
+  group,
+  groups,
+  setGroups,
+  setIsLoading,
+  setError,
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const chartRef = useRef(null);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
@@ -116,6 +125,11 @@ const Metric = ({ metric, group, groups, setGroups }) => {
     return navigate(`/dashboards/metric/${metric.id}`);
   };
 
+  const handleEdit = () => {
+    setIsEditOpen(true);
+    setIsMenuOpen(false);
+  };
+
   return (
     <div className={Styles.metric}>
       <div className={Styles.metric_topbar}>
@@ -134,7 +148,9 @@ const Metric = ({ metric, group, groups, setGroups }) => {
           <div className={Styles.metric_nav_link} onClick={handleViewOpen}>
             View
           </div>
-          <div className={Styles.metric_nav_link}>Edit</div>
+          <div className={Styles.metric_nav_link} onClick={handleEdit}>
+            Edit
+          </div>
           <div
             className={Styles.metric_nav_link}
             onClick={() => setIsDeleteOpen(!isDeleteOpen)}
@@ -142,6 +158,17 @@ const Metric = ({ metric, group, groups, setGroups }) => {
             Remove
           </div>
         </nav>
+        {isEditOpen && (
+          <AddMetric
+            setAddMetricOpen={setIsEditOpen}
+            addMetricOpen={isEditOpen}
+            setIsLoading={setIsLoading}
+            setError={setError}
+            groups={groups}
+            oldMetric={metric}
+            type="Update"
+          />
+        )}
         {isDeleteOpen && (
           <ConfirmationBox
             message="Are you sure you want to delete this metric?"

@@ -16,7 +16,7 @@ const GoogleClient = (props) => {
     };
     console.log(requestBody);
     postApiCall(
-      CREATE_CONNECTOR_API,
+      CREATE_CONNECTOR_API("GOOGLE"),
       requestBody,
       localStorage.getItem("token")
     )
@@ -24,7 +24,7 @@ const GoogleClient = (props) => {
         if (response.errorMessage) {
           props.setError(response.errorMessage);
         } else {
-          // window.location.reload();
+          window.location.reload();
         }
       })
       .catch((error) => {
@@ -36,7 +36,7 @@ const GoogleClient = (props) => {
   };
 
   const handleLoginError = (error) => {
-    console.log("Login Failed:", error);
+    props.setError(error.message);
   };
   const handleLogin = useGoogleLogin({
     onSuccess: handleLoginSuccess,

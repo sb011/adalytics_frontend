@@ -6,15 +6,26 @@ import DeleteIcon from "../icons/delete.png";
 import { deleteApiCall } from "../apis/ApiCall";
 import { DELETE_GROUP_API } from "../apis/constants/ApiConstant";
 import ConfirmationBox from "./ConfirmationBox";
+import EditIcon from "../icons/edit.png";
+import AddGroup from "./AddGroup";
 
-const Group = ({ group, groups, setGroups }) => {
+const Group = ({
+  group,
+  groups,
+  setGroups,
+  setAddGroupOpen,
+  addGroupOpen,
+  setIsLoading,
+  setError,
+}) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const arrowRef = useRef();
 
   const handleArrowClick = () => {
     setIsOpen(!isOpen);
-    arrowRef.current.style.transform = `rotate(${isOpen ? "0deg" : "180deg"})`;
+    arrowRef.current.style.transform = `rotate(${isOpen ? "-90deg" : "0deg"})`;
   };
 
   const handleDelete = async () => {
@@ -36,12 +47,8 @@ const Group = ({ group, groups, setGroups }) => {
   return (
     <div className={Styles.group_container}>
       <div className={Styles.group_topbar}>
-        <div className={Styles.group_name_box}>
-          <button
-            className={Styles.group_open_icon_box}
-            onClick={handleArrowClick}
-            ref={arrowRef}
-          >
+        <div className={Styles.group_name_box} onClick={handleArrowClick}>
+          <button className={Styles.group_open_icon_box} ref={arrowRef}>
             <img
               className={Styles.group_open_icon}
               src={ArrowDownIcon}
@@ -50,21 +57,43 @@ const Group = ({ group, groups, setGroups }) => {
           </button>
           <h1 className={Styles.group_name}>{group.name}</h1>
         </div>
-        <div
-          className={Styles.group_delete_box}
-          onClick={() => setIsDeleteOpen(true)}
-        >
-          <img
-            className={Styles.group_delete_icon}
-            src={DeleteIcon}
-            alt="delete"
-          />
+        <div className={Styles.icons_group}>
+          <div
+            className={Styles.group_delete_box}
+            onClick={() => setIsEditOpen(true)}
+          >
+            <img
+              className={Styles.group_delete_icon}
+              src={EditIcon}
+              alt="edit"
+            />
+          </div>
+          <div
+            className={Styles.group_delete_box}
+            onClick={() => setIsDeleteOpen(true)}
+          >
+            <img
+              className={Styles.group_delete_icon}
+              src={DeleteIcon}
+              alt="delete"
+            />
+          </div>
         </div>
         {isDeleteOpen && (
           <ConfirmationBox
             message="Are you sure you want to delete this group? This will delete all the metrics in this group."
-            confirm={() => handleDelete()}
+            confirm={handleDelete}
             setBoxOpen={setIsDeleteOpen}
+          />
+        )}
+        {isEditOpen && (
+          <AddGroup
+            setAddGroupOpen={setIsEditOpen}
+            addGroupOpen={isEditOpen}
+            setIsLoading={setIsLoading}
+            setError={setError}
+            group={group}
+            type="Update"
           />
         )}
       </div>
@@ -78,6 +107,8 @@ const Group = ({ group, groups, setGroups }) => {
                 group={group}
                 groups={groups}
                 setGroups={setGroups}
+                setIsLoading={setIsLoading}
+                setError={setError}
               />
             ))}
           </div>
