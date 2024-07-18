@@ -39,6 +39,7 @@ const Connectors = () => {
         return;
       } else {
         setResponse(apiResponse);
+        console.log(apiResponse);
       }
     };
 
@@ -65,20 +66,6 @@ const Connectors = () => {
       setResponse(response.filter((connector) => connector.id !== id));
     }
     setIsLoading(false);
-  };
-
-  const padZero = (num) => (num < 10 ? `0${num}` : num);
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-
-    const day = padZero(date.getDate());
-    const month = padZero(date.getMonth() + 1); // Months are zero-based
-    const year = date.getFullYear().toString().slice(-2);
-    const hours = padZero(date.getHours());
-    const minutes = padZero(date.getMinutes());
-
-    return `${day}/${month}/${year} ${hours}:${minutes}`;
   };
 
   if (isLoading) {
@@ -174,7 +161,9 @@ const Connectors = () => {
                       ) : (
                         <div className={Styles.connector_green_dot}></div>
                       )}
-                      {formatDate(Date(connector.expirationTime))}
+                      {connector.expirationTime === 9223372036854775807
+                        ? "Never"
+                        : new Date(connector.expirationTime).toLocaleString()}
                     </div>
                   </td>
                   <td className={Styles.connector_tbody_td}>
