@@ -41,38 +41,33 @@ const FacebookClient = (props) => {
   const handleFacebookLogin = async () => {
     window.FB.login(
       (response) => {
-        console.log(response);
         if (response.authResponse) {
-          const { accessToken, userID } = response.authResponse;
+          const { accessToken } = response.authResponse;
 
-          window.FB.api("/me?fields=email", (profileResponse) => {
-            setIsLoading(true);
-            const requestBody = {
-              token: accessToken,
-              platform: "FACEBOOK",
-              platformUserId: userID,
-              email: profileResponse.email,
-            };
+          setIsLoading(true);
+          const requestBody = {
+            token: accessToken,
+            platform: "FACEBOOK",
+          };
 
-            postApiCall(
-              CREATE_CONNECTOR_API,
-              requestBody,
-              localStorage.getItem("token")
-            )
-              .then((response) => {
-                if (response.errorMessage) {
-                  props.setError(response.errorMessage);
-                } else {
-                  window.location.reload();
-                }
-              })
-              .catch((error) => {
-                props.setError("Error creating connector: " + error.message);
-              })
-              .finally(() => {
-                setIsLoading(false);
-              });
-          });
+          postApiCall(
+            CREATE_CONNECTOR_API("FACEBOOK"),
+            requestBody,
+            localStorage.getItem("token")
+          )
+            .then((response) => {
+              if (response.errorMessage) {
+                props.setError(response.errorMessage);
+              } else {
+                window.location.reload();
+              }
+            })
+            .catch((error) => {
+              props.setError("Error creating connector: " + error.message);
+            })
+            .finally(() => {
+              setIsLoading(false);
+            });
         } else {
           setIsLoading(false);
           props.setError("User cancelled login or did not fully authorize.");

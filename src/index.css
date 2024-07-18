@@ -27,7 +27,7 @@ code {
   --white-color: #fff;
   --black-color: #000;
   --light-black-color: #bbb;
-  --red-color: #ff0000;
+  --red-color: #ea3323;
   --border-radius: 12px;
   --small-border-radius: 8px;
   --border: 1px solid #ddd;
@@ -51,4 +51,21 @@ code {
 @font-face {
   font-family: "Adalytics-sans";
   src: url("../public/DMSans_18pt-Regular.ttf") format("truetype");
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  /* flex: 1; */
+  min-height: 90vh;
+}
+
+.footer {
+  margin-top: 1rem;
+  width: 100%;
+  position: relative;
 }

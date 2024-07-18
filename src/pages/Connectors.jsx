@@ -14,17 +14,17 @@ import FacebookIcon from "../icons/facebook.png";
 import GoogleIcon from "../icons/google.png";
 import DeleteIcon from "../icons/delete.png";
 import ConfirmationBox from "../components/ConfirmationBox";
-import moment from "moment";
 import Loading from "../components/Loading";
 import GoogleClient from "../components/GoogleClient";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import NoContent from "../components/NoContent";
+import Toast from "../components/Toast";
 
 const Connectors = () => {
   const [addConnectorOpen, setAddConnectorOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [error, setError] = useState("");
-  const [mainError, setMainError] = useState("");
-  const [response, setResponse] = useState();
+  const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -35,16 +35,17 @@ const Connectors = () => {
         localStorage.getItem("token")
       );
       if (apiResponse.errorMessage) {
-        setMainError(apiResponse.errorMessage);
+        setError(apiResponse.errorMessage);
         return;
       } else {
         setResponse(apiResponse);
+        console.log(apiResponse);
       }
     };
 
     getAllConnectors()
       .catch((error) => {
-        setMainError("Error getting connectors: " + error.message);
+        setError("Error getting connectors: " + error.message);
       })
       .finally(() => {
         setIsLoading(false);
@@ -58,7 +59,7 @@ const Connectors = () => {
       localStorage.getItem("token")
     );
     if (apiResponse.errorMessage) {
-      setMainError(apiResponse.errorMessage);
+      setError(apiResponse.errorMessage);
       setIsLoading(false);
       return;
     } else {
@@ -104,7 +105,6 @@ const Connectors = () => {
                   />
                 </div>
               </div>
-              {error && <p className={Styles.connector_error}>{error}</p>}
               <div className={Styles.connector_grid}>
                 <FacebookClient setError={setError} />
                 <GoogleOAuthProvider
@@ -117,75 +117,80 @@ const Connectors = () => {
           </div>
         )}
       </div>
-      {mainError && <p className={Styles.connector_error}>{mainError}</p>}
-      <table className={Styles.connector_table}>
-        <thead className={Styles.connector_thead}>
-          <tr className={Styles.connector_thead_tr}>
-            <th className={Styles.connector_thead_th}>Email</th>
-            <th className={Styles.connector_thead_th}>Platform</th>
-            <th className={Styles.connector_thead_th}>Expires In</th>
-            <th className={Styles.connector_thead_th}>Delete</th>
-          </tr>
-        </thead>
-        {response && response.length > 0 && (
-          <tbody className={Styles.connector_tbody}>
-            {response.map((connector) => (
-              <tr className={Styles.connector_tbody_tr} key={connector.id}>
-                <td className={Styles.connector_tbody_td}>{connector.email}</td>
-                <td className={Styles.connector_tbody_td}>
-                  {connector.platform === "FACEBOOK" ? (
-                    <img
-                      className={Styles.connector_platform_icon}
-                      src={FacebookIcon}
-                      alt="facebook"
-                    />
-                  ) : connector.platform === "GOOGLE" ? (
-                    <img
-                      className={Styles.connector_platform_icon}
-                      src={GoogleIcon}
-                      alt="google"
-                    />
-                  ) : (
-                    "Unknown"
-                  )}
-                </td>
-                <td className={Styles.connector_tbody_td}>
-                  <div className={Styles.connector_re_authentication}>
-                    {connector.expirationTime < Date.now() ? (
-                      <div className={Styles.connector_red_dot}></div>
-                    ) : connector.expirationTime <
-                      Date.now() + 7 * 24 * 60 * 60 * 1000 ? (
-                      <div className={Styles.connector_orange_dot}></div>
+      {response && response.length > 0 ? (
+        <table className={Styles.connector_table}>
+          <thead className={Styles.connector_thead}>
+            <tr className={Styles.connector_thead_tr}>
+              <th className={Styles.connector_thead_th}>Email</th>
+              <th className={Styles.connector_thead_th}>Platform</th>
+              <th className={Styles.connector_thead_th}>Expires In</th>
+              <th className={Styles.connector_thead_th}>Delete</th>
+            </tr>
+          </thead>
+          {response && response.length > 0 && (
+            <tbody className={Styles.connector_tbody}>
+              {response.map((connector) => (
+                <tr className={Styles.connector_tbody_tr} key={connector.id}>
+                  <td className={Styles.connector_tbody_td}>
+                    {connector.email}
+                  </td>
+                  <td className={Styles.connector_tbody_td}>
+                    {connector.platform === "FACEBOOK" ? (
+                      <img
+                        className={Styles.connector_platform_icon}
+                        src={FacebookIcon}
+                        alt="facebook"
+                      />
+                    ) : connector.platform === "GOOGLE" ? (
+                      <img
+                        className={Styles.connector_platform_icon}
+                        src={GoogleIcon}
+                        alt="google"
+                      />
                     ) : (
-                      <div className={Styles.connector_green_dot}></div>
+                      "Unknown"
                     )}
-                    {moment(Date(connector.expirationTime)).format(
-                      "DD/MM/YYYY HH:mm"
-                    )}
-                  </div>
-                </td>
-                <td className={Styles.connector_tbody_td}>
-                  <img
-                    className={Styles.connector_delete_icon}
-                    src={DeleteIcon}
-                    alt="delete"
-                    onClick={() => setIsDeleteOpen(!isDeleteOpen)}
-                  />
-                </td>
-                {isDeleteOpen && (
-                  <ConfirmationBox
-                    message="Are you sure you want to delete this connector?"
-                    confirm={() => handleDeleteConnector(connector.id)}
-                    setBoxOpen={setIsDeleteOpen}
-                  />
-                )}
-              </tr>
-            ))}
-          </tbody>
-        )}
-      </table>
-      {response && response.length === 0 && (
-        <p className={Styles.connector_error}>No connectors found</p>
+                  </td>
+                  <td className={Styles.connector_tbody_td}>
+                    <div className={Styles.connector_re_authentication}>
+                      {connector.expirationTime < Date.now() ? (
+                        <div className={Styles.connector_red_dot}></div>
+                      ) : connector.expirationTime <
+                        Date.now() + 7 * 24 * 60 * 60 * 1000 ? (
+                        <div className={Styles.connector_orange_dot}></div>
+                      ) : (
+                        <div className={Styles.connector_green_dot}></div>
+                      )}
+                      {connector.expirationTime === 9223372036854775807
+                        ? "Never"
+                        : new Date(connector.expirationTime).toLocaleString()}
+                    </div>
+                  </td>
+                  <td className={Styles.connector_tbody_td}>
+                    <img
+                      className={Styles.connector_delete_icon}
+                      src={DeleteIcon}
+                      alt="delete"
+                      onClick={() => setIsDeleteOpen(!isDeleteOpen)}
+                    />
+                  </td>
+                  {isDeleteOpen && (
+                    <ConfirmationBox
+                      message="Are you sure you want to delete this connector?"
+                      confirm={() => handleDeleteConnector(connector.id)}
+                      setBoxOpen={setIsDeleteOpen}
+                    />
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          )}
+        </table>
+      ) : (
+        <NoContent message="No Connectors Found" />
+      )}
+      {error && (
+        <Toast message={error} messageType="error" setMessage={setError} />
       )}
     </div>
   );

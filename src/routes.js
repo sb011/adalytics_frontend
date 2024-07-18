@@ -12,6 +12,10 @@ import CreateOrganization from "./pages/CreateOrganization";
 import Users from "./pages/Users";
 import VerifyUser from "./pages/VerifyUser";
 import WaitForEmailVerify from "./pages/WaitForEmailVerify";
+import Dashboards from "./pages/Dashboards";
+
+import "./index.css";
+import ViewMetric from "./pages/ViewMetric";
 
 const ProtectedRoutes = () => {
   const localStorageToken = localStorage.getItem("token");
@@ -29,8 +33,12 @@ const ComponentWithHeaderAndFooter = ({ page }) => {
   return (
     <>
       <Header />
-      {page}
-      <Footer />
+      <div className="page">
+        <div className="content">{page}</div>
+        <div className="footer">
+          <Footer />
+        </div>
+      </div>
     </>
   );
 };
@@ -84,6 +92,14 @@ const routes = createBrowserRouter([
       {
         path: "/users",
         element: <ComponentWithHeaderAndFooter page={<Users />} />,
+      },
+      {
+        path: "/dashboards",
+        element: <ComponentWithHeaderAndFooter page={<Dashboards />} />,
+      },
+      {
+        path: "/dashboards/metric/:id",
+        element: <ComponentWithHeaderAndFooter page={<ViewMetric />} />,
       },
     ],
   },
