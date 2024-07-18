@@ -34,3 +34,8 @@
   width: 100%;
   object-fit: contain;
 }
+
+.metric {
+  width: 100%;
+  height: 1vh !important;
+}

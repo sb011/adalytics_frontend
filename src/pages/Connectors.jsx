@@ -14,7 +14,6 @@ import FacebookIcon from "../icons/facebook.png";
 import GoogleIcon from "../icons/google.png";
 import DeleteIcon from "../icons/delete.png";
 import ConfirmationBox from "../components/ConfirmationBox";
-import moment from "moment";
 import Loading from "../components/Loading";
 import GoogleClient from "../components/GoogleClient";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -66,6 +65,20 @@ const Connectors = () => {
       setResponse(response.filter((connector) => connector.id !== id));
     }
     setIsLoading(false);
+  };
+
+  const padZero = (num) => (num < 10 ? `0${num}` : num);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+
+    const day = padZero(date.getDate());
+    const month = padZero(date.getMonth() + 1); // Months are zero-based
+    const year = date.getFullYear().toString().slice(-2);
+    const hours = padZero(date.getHours());
+    const minutes = padZero(date.getMinutes());
+
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
   };
 
   if (isLoading) {
@@ -161,9 +174,7 @@ const Connectors = () => {
                       ) : (
                         <div className={Styles.connector_green_dot}></div>
                       )}
-                      {moment(Date(connector.expirationTime)).format(
-                        "DD/MM/YYYY HH:mm"
-                      )}
+                      {formatDate(Date(connector.expirationTime))}
                     </div>
                   </td>
                   <td className={Styles.connector_tbody_td}>
