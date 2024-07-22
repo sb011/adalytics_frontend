@@ -3,10 +3,14 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import routes from "./routes";
+import HandleWebSocket from "./components/HandleWebSocket";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={routes} />
-  </React.StrictMode>
+  <>
+    <HandleWebSocket />
+    <React.StrictMode>
+      <RouterProvider router={routes} />
+    </React.StrictMode>
+  </>
 );

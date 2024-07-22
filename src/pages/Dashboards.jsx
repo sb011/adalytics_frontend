@@ -41,6 +41,23 @@ const Dashboards = () => {
       });
   }, []);
 
+  const addGroup = (group) => {
+    console.log(groups, group);
+    group.metrics = [];
+    setGroups([...groups, group]);
+  };
+
+  const addMetric = (metric) => {
+    setGroups(
+      groups.map((group) => {
+        if (group.id === metric.groupId) {
+          group.metrics.push(metric);
+        }
+        return group;
+      })
+    );
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -84,6 +101,7 @@ const Dashboards = () => {
             setIsLoading={setIsLoading}
             setError={setError}
             type="Add"
+            addGroup={addGroup}
           />
         )}
         {addMetricOpen && (
@@ -94,6 +112,7 @@ const Dashboards = () => {
             setError={setError}
             groups={groups}
             type="Add"
+            addMetric={addMetric}
           />
         )}
       </div>

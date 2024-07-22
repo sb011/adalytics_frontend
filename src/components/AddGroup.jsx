@@ -11,6 +11,7 @@ const AddGroup = ({
   setError,
   group,
   type,
+  addGroup,
 }) => {
   const [groupName, setGroupName] = useState("");
 
@@ -28,7 +29,7 @@ const AddGroup = ({
     }
 
     const requestBody = {
-      id: group.id,
+      id: group ? group.id : null,
       name: groupName,
     };
 
@@ -43,7 +44,8 @@ const AddGroup = ({
       setIsLoading(false);
       return;
     } else {
-      window.location.reload();
+      console.log(apiResponse);
+      addGroup(apiResponse);
     }
     setIsLoading(false);
     setAddGroupOpen(false);

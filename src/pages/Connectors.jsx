@@ -39,7 +39,6 @@ const Connectors = () => {
         return;
       } else {
         setResponse(apiResponse);
-        console.log(apiResponse);
       }
     };
 
@@ -66,6 +65,10 @@ const Connectors = () => {
       setResponse(response.filter((connector) => connector.id !== id));
     }
     setIsLoading(false);
+  };
+
+  const addConnector = (connector) => {
+    setResponse([...response, connector]);
   };
 
   if (isLoading) {
@@ -106,11 +109,17 @@ const Connectors = () => {
                 </div>
               </div>
               <div className={Styles.connector_grid}>
-                <FacebookClient setError={setError} />
+                <FacebookClient
+                  setError={setError}
+                  addConnector={addConnector}
+                />
                 <GoogleOAuthProvider
                   clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 >
-                  <GoogleClient setError={setError} />
+                  <GoogleClient
+                    setError={setError}
+                    addConnector={addConnector}
+                  />
                 </GoogleOAuthProvider>
               </div>
             </div>
