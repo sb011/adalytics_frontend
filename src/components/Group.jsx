@@ -9,16 +9,8 @@ import ConfirmationBox from "./ConfirmationBox";
 import EditIcon from "../icons/edit.png";
 import AddGroup from "./AddGroup";
 
-const Group = ({
-  group,
-  groups,
-  setGroups,
-  setAddGroupOpen,
-  addGroupOpen,
-  setIsLoading,
-  setError,
-}) => {
-  const [isOpen, setIsOpen] = useState(true);
+const Group = ({ group, groups, setGroups, setIsLoading, setError }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const arrowRef = useRef();

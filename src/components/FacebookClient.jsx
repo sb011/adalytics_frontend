@@ -40,9 +40,9 @@ const FacebookClient = (props) => {
 
   const handleFacebookLogin = async () => {
     window.FB.login(
-      (response) => {
-        if (response.authResponse) {
-          const { accessToken } = response.authResponse;
+      (fbResponse) => {
+        if (fbResponse.authResponse) {
+          const { accessToken } = fbResponse.authResponse;
 
           setIsLoading(true);
           const requestBody = {
@@ -59,7 +59,7 @@ const FacebookClient = (props) => {
               if (response.errorMessage) {
                 props.setError(response.errorMessage);
               } else {
-                window.location.reload();
+                props.addConnector(response);
               }
             })
             .catch((error) => {

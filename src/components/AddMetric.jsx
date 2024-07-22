@@ -14,6 +14,7 @@ const AddMetric = ({
   groups,
   oldMetric,
   type,
+  addMetric,
 }) => {
   const metric = {
     id: null,
@@ -55,7 +56,7 @@ const AddMetric = ({
       setIsLoading(false);
       return;
     } else {
-      window.location.reload();
+      addMetric(apiResponse);
     }
     setIsLoading(false);
     setAddMetricOpen(false);

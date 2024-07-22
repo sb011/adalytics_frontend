@@ -24,7 +24,7 @@ const GoogleClient = (props) => {
         if (response.errorMessage) {
           props.setError(response.errorMessage);
         } else {
-          window.location.reload();
+          props.addConnector(response);
         }
       })
       .catch((error) => {
@@ -42,6 +42,8 @@ const GoogleClient = (props) => {
     onSuccess: handleLoginSuccess,
     onError: handleLoginError,
     flow: "auth-code",
+    scope:
+      "openid https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/adwords https://adwords.google.com/api/adwords https://adwords.google.com/api/adwords/ https://adwords.google.com/api/adwords/cm",
   });
 
   if (isLoading) {
